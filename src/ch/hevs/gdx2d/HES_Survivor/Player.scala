@@ -10,14 +10,21 @@ import scala.collection.mutable.ArrayBuffer
 
 class Player(private val name: String = "Player 1", private var level: Int = 1, private var lifePoints: Int = 10,
              private var position: Vector2 = new Vector2(100, 100),
-             private var weapons: ArrayBuffer[Weapon] = null) extends DrawableObject with Simulatable{
+             private var weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())) extends DrawableObject with Simulatable{
 
 
   override def draw(g: GdxGraphics): Unit = {
     g.drawFilledCircle(position.x, position.y, 15, Color.BLUE)
   }
 
-  def shoot() : Unit = {
+  def getPosition: Vector2 = position
+
+  def shoot(weapon: Int = 0, position: Vector2) : Unit = {
+    if(weapons.length >= weapons.length){
+      weapons(0).shoot(position)
+    }else{
+      weapons(weapon).shoot(position)
+    }
 
   }
 

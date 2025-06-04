@@ -2,7 +2,7 @@ package ch.hevs.gdx2d.HES_Survivor
 
 import com.badlogic.gdx.{Gdx, Input}
 import com.badlogic.gdx.math.Interpolation
-import ch.hevs.gdx2d.components.bitmaps.BitmapImage
+import ch.hevs.gdx2d.components.bitmaps.{BitmapImage, Spritesheet}
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
@@ -33,6 +33,7 @@ class Game extends PortableApplication(1920, 1080) {
     playerBitmap = new BitmapImage("data/images/ISC_logo.png")
     badGuyBitmap = new BitmapImage("data/images/ISC_logo.png")
 
+
     player = new Player(name = "Raph")
     enemy = new Enemy()
 
@@ -52,7 +53,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update and display player */
     player.update()
-    player.draw(g)
+    player.draw1(g,mouseX,mouseY)
     player.moveTo(mouseX, mouseY)
 
     /** Update and display enemy */

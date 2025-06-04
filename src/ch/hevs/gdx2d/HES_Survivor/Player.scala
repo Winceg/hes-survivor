@@ -1,6 +1,7 @@
 package ch.hevs.gdx2d.HES_Survivor
 
 
+import ch.hevs.gdx2d.components.bitmaps.Spritesheet
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.graphics.Color
@@ -12,9 +13,15 @@ class Player(private val name: String = "Player 1", private var level: Int = 1, 
              private var position: Vector2 = new Vector2(100, 100),
              private var weapons: ArrayBuffer[Weapon] = null) extends DrawableObject with Simulatable{
 
+  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png",64,64)
 
   override def draw(g: GdxGraphics): Unit = {
     g.drawFilledCircle(position.x, position.y, 15, Color.BLUE)
+  }
+
+  def draw1(g:GdxGraphics,x : Float,y: Float): Unit = {
+    g.draw(playerSprite.sprites(0)(0),x,y)
+
   }
 
   def shoot() : Unit = {

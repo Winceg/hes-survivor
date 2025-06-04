@@ -10,10 +10,12 @@ class Bullet(private val damage: Int = 10, private var position: Vector2,
              private val trajectory: Trajectory = null) extends DrawableObject{
 
   override def draw(g: GdxGraphics): Unit = {
-    g.drawFilledCircle(position.x, position.y, 5, Color.GRAY)
+    g.drawFilledCircle(position.x, position.y, 5, Color.LIGHT_GRAY)
   }
 
-  def shoot(): Unit = {
-    position.x += 50
+  def getPosition: Vector2 = position
+
+  def move(enemy: Int = 1): Unit = {
+    position.y += enemy * 50
   }
 }

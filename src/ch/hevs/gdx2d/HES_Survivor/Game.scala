@@ -7,6 +7,8 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
 
+import scala.collection.mutable.ArrayBuffer
+
 class Game extends PortableApplication(1920, 1080) {
   private var imgBitmap: BitmapImage = null
   private var playerBitmap: BitmapImage = null
@@ -17,7 +19,7 @@ class Game extends PortableApplication(1920, 1080) {
   private var currentFrame: Int = 0
   private val nFrames: Int = 4
   private val FRAME_TIME: Double = 0.15 // Duration of each frame
-
+  var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
 
   def initGame(): Unit = {
 
@@ -70,6 +72,13 @@ class Game extends PortableApplication(1920, 1080) {
     player.draw1(g, mouseX, mouseY, currentFrame)
     player.moveTo(mouseX, mouseY)
 
+    /** Update bullets position */
+    for(b <- bullets){
+      //if(b.getPosition.x )
+      b.move()
+      b.draw(g)
+    }
+
     /** Update and display enemy */
     enemy.update()
     enemy.draw(g)
@@ -101,10 +110,10 @@ class Game extends PortableApplication(1920, 1080) {
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
-      player.shoot(0, player.getPosition)
+      player.shoot(bullets = bullets)
     }
     if (button == Input.Buttons.RIGHT) {
-      player.shoot(1, player.getPosition)
+      player.shoot(1, bullets)
     }
   }
 }

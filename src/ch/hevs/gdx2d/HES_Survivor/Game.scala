@@ -1,12 +1,19 @@
 package ch.hevs.gdx2d.HES_Survivor
 
-import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.{Gdx, Input}
 import com.badlogic.gdx.math.Interpolation
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
+import com.badlogic.gdx.Input.Keys
 
-object Game extends PortableApplication(1920,1080){
+class Game extends PortableApplication(1920, 1080) {
+  private var imgBitmap: BitmapImage = null
+  private var playerBitmap: BitmapImage = null
+  private var badGuyBitmap: BitmapImage = null
+  private var player : Player = null
+  private var enemy : Enemy = null
+
   def initGame(): Unit = {
 
   }
@@ -20,47 +27,68 @@ object Game extends PortableApplication(1920,1080){
   }
 
   override def onInit(): Unit = {
-    setTitle("Hello World - mui 2024")
-
+    setTitle("Hello World - HES Survivor")
     // Load a custom image (or from the lib "res/lib/icon64.png")
-    var imgBitmap = new BitmapImage("res/lib/icon64.png")
+    imgBitmap = new BitmapImage("data/images/ISC_logo.png")
+    playerBitmap = new BitmapImage("data/images/ISC_logo.png")
+    badGuyBitmap = new BitmapImage("data/images/ISC_logo.png")
+
+    player = new Player(name = "Raph")
+    enemy = new Enemy()
+
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
-    // Clears the screen
+    /** Clears the screen */
     g.clear()
-    // Compute the angle of the image using an elastic interpolation
-    val t = computePercentage
-    val angle: Float = Interpolation.sine.apply(MIN_ANGLE, MAX_ANGLE, t)
 
-    // Draw everything
-    g.drawTransformedPicture(getWindowWidth / 2.0f, getWindowHeight / 2.0f, angle, 0.7f, imgBitmap)
+    val margin: Int = Gdx.graphics.getWidth / 8
+    val height: Int = Gdx.graphics.getHeight
+    val width: Int = Gdx.graphics.getWidth
+
+    /** Get mouse position */
+    val mouseX = Gdx.input.getX
+    val mouseY = height - Gdx.input.getY
+
+    /** Update and display player */
+    player.update()
+    player.draw(g)
+    player.moveTo(mouseX, mouseY)
+
+    /** Update and display enemy */
+    enemy.update()
+    enemy.draw(g)
+    /** Draw stuff */
+    if(enemy.getPosition.x < width - margin && enemy.direction == 1) {
+      enemy.moveDelta(10, 0)
+    }else if(enemy.getPosition.x == width - margin){
+      enemy.direction = -1
+    }else if(enemy.getPosition.x > margin && enemy.direction == 1) {
+      enemy.moveDelta(-10, 0)
+    }else if(enemy.getPosition.x == margin){
+      enemy.direction = 1
+    }
+
     g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
     g.drawFPS()
     g.drawSchoolLogo()
   }
 
-  private var direction: Int = 1
-  private var currentTime: Float = 0
-  final private val ANIMATION_LENGTH: Float = 2f // Animation length (in seconds)
-  final private val MIN_ANGLE: Float = -20
-  final private val MAX_ANGLE: Float = 20
+  override def onKeyDown(keycode: Int): Unit = {
+    super.onKeyDown(keycode)
 
-  private def computePercentage: Float = {
-    if (direction == 1) {
-      currentTime += Gdx.graphics.getDeltaTime
-      if (currentTime > ANIMATION_LENGTH) {
-        currentTime = ANIMATION_LENGTH
-        direction *= -1
-      }
+    keycode match{
+      case Keys.LEFT =>
+        player.moveDelta(-10, 0)
+      case Keys.RIGHT =>
+        player.moveDelta(10, 0)
     }
-    else {
-      currentTime -= Gdx.graphics.getDeltaTime
-      if (currentTime < 0) {
-        currentTime = 0
-        direction *= -1
-      }
+
+  }
+
+  override def onClick(x: Int, y: Int, button: Int): Unit = {
+    if (button == Input.Buttons.LEFT) {
+      player.shoot()
     }
-    currentTime / ANIMATION_LENGTH
   }
 }

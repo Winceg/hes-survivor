@@ -18,6 +18,7 @@ class Game extends PortableApplication(1920, 1080) {
   private val nFrames: Int = 4
   private val FRAME_TIME: Double = 0.15 // Duration of each frame
 
+  // espace ça suffit
 
   def initGame(): Unit = {
 

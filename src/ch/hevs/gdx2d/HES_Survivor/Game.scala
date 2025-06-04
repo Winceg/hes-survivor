@@ -60,15 +60,12 @@ class Game extends PortableApplication(1920, 1080) {
     enemy.update()
     enemy.draw(g)
     /** Draw stuff */
-    if(enemy.getPosition.x < width - margin && enemy.direction == 1) {
-      enemy.moveDelta(10, 0)
-    }else if(enemy.getPosition.x == width - margin){
+    if(enemy.getPosition.x == width - margin){
       enemy.direction = -1
-    }else if(enemy.getPosition.x > margin && enemy.direction == 1) {
-      enemy.moveDelta(-10, 0)
     }else if(enemy.getPosition.x == margin){
       enemy.direction = 1
     }
+    enemy.moveDelta(enemy.direction * 10, 0)
 
     g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
     g.drawFPS()
@@ -89,7 +86,10 @@ class Game extends PortableApplication(1920, 1080) {
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
-      player.shoot()
+      player.shoot(0, player.getPosition)
+    }
+    if (button == Input.Buttons.RIGHT) {
+      player.shoot(1, player.getPosition)
     }
   }
 }

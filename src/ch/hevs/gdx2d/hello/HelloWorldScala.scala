@@ -23,6 +23,7 @@ object HelloWorldScala {
 class HelloWorldScala extends PortableApplication {
   private var imgBitmap: BitmapImage = null
 
+
   override def onInit(): Unit = {
     setTitle("Hello World - mui 2024")
 
@@ -36,7 +37,7 @@ class HelloWorldScala extends PortableApplication {
   private var direction: Int = 1
   private var currentTime: Float = 0
   final private val ANIMATION_LENGTH: Float = 2f // Animation length (in seconds)
-  final private val MIN_ANGLE: Float = -20
+  final private val MIN_ANGLE: Float = -40
   final private val MAX_ANGLE: Float = 20
 
   /**

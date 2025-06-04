@@ -19,8 +19,9 @@ class Player(private val name: String = "Player 1", private var level: Int = 1, 
     g.drawFilledCircle(position.x, position.y, 15, Color.BLUE)
   }
 
-  def draw1(g:GdxGraphics,x : Float,y: Float): Unit = {
-    g.draw(playerSprite.sprites(0)(0),x,y)
+  def draw1(g:GdxGraphics,x : Float,y: Float,currentFrame : Int): Unit = {
+
+    g.draw(playerSprite.sprites(0)(currentFrame),x-32,y-32)
 
   }
   def getPosition: Vector2 = position

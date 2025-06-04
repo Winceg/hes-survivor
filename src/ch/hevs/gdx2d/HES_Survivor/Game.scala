@@ -15,10 +15,6 @@ class Game extends PortableApplication(1920, 1080) {
   private var badGuyBitmap: BitmapImage = null
   private var player: Player = null
   private var enemy: Enemy = null
-  private var dt: Float = 0
-  private var currentFrame: Int = 0
-  private val nFrames: Int = 4
-  private val FRAME_TIME: Double = 0.15 // Duration of each frame
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
 
   def initGame(): Unit = {
@@ -58,18 +54,9 @@ class Game extends PortableApplication(1920, 1080) {
     val mouseX = Gdx.input.getX
     val mouseY = height - Gdx.input.getY
 
-    /** Update and count sprite state */
-
-    dt += Gdx.graphics.getDeltaTime
-
-    if (dt > FRAME_TIME) {
-      dt = 0
-      currentFrame = (currentFrame + 1) % nFrames
-    }
-
     /** Update and display player */
     player.update()
-    player.draw1(g, mouseX, mouseY, currentFrame)
+    player.draw1(g, mouseX, mouseY)
     player.moveTo(mouseX, mouseY)
 
     /** Update bullets position */
@@ -81,7 +68,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update and display enemy */
     enemy.update()
-    enemy.draw(g)
+    enemy.draw1(g)
 
     /** Draw stuff */
     if (enemy.getPosition.x == width - margin) {

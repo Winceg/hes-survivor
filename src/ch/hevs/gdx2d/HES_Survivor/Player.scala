@@ -4,6 +4,7 @@ package ch.hevs.gdx2d.HES_Survivor
 import ch.hevs.gdx2d.components.bitmaps.Spritesheet
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 
@@ -13,15 +14,29 @@ class Player(private val name: String = "Player 1", private var level: Int = 1, 
              private var position: Vector2 = new Vector2(100, 100),
              private var weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())) extends DrawableObject with Simulatable {
 
-  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png", 64, 64)
+  val spriteDimentionX : Int = 256
+  val spriteDimentionY: Int = 256
+  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png",spriteDimentionX,spriteDimentionY)
+  private var currentFrame: Int = 0
+  private val nFrames: Int = 4
+  private val FRAME_TIME: Double = 0.15 // Duration of each frame
+  private var dt: Float = 0
 
   override def draw(g: GdxGraphics): Unit = {
     g.drawFilledCircle(position.x, position.y, 15, Color.BLUE)
   }
 
-  def draw1(g: GdxGraphics, x: Float, y: Float, currentFrame: Int): Unit = {
+  def draw1(g: GdxGraphics, x: Float, y: Float): Unit = {
+    /** Update and count sprite state */
 
-    g.draw(playerSprite.sprites(0)(currentFrame), x - 32, y - 32)
+    dt += Gdx.graphics.getDeltaTime
+
+    if (dt > FRAME_TIME) {
+      dt = 0
+      currentFrame = (currentFrame + 1) % nFrames
+    }
+
+    g.draw(playerSprite.sprites(0)(currentFrame),x-(spriteDimentionX)/2,y-(spriteDimentionY/2))
 
   }
 

@@ -6,16 +6,20 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 
-class Bullet(private val damage: Int = 10, private var position: Vector2,
-             private val trajectory: Trajectory = null) extends DrawableObject{
+class Bullet(private val damage: Int = 5, startPos: Vector2,
+             private val trajectory: Trajectory = null, var playerBullet: Int = 1) extends DrawableObject {
+
+  private var position: Vector2 = new Vector2()
+  position.x = startPos.x
+  position.y = startPos.y
 
   override def draw(g: GdxGraphics): Unit = {
-    g.drawFilledCircle(position.x, position.y, 5, Color.LIGHT_GRAY)
+    g.drawFilledCircle(position.x, position.y, damage, Color.LIGHT_GRAY)
   }
 
   def getPosition: Vector2 = position
 
-  def move(enemy: Int = 1): Unit = {
-    position.y += enemy * 50
+  def move(playerBullet: Int = 1): Unit = {
+    position.y += playerBullet * 50
   }
 }

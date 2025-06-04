@@ -5,10 +5,10 @@ import com.badlogic.gdx.math.Vector2
 
 import scala.collection.mutable.ArrayBuffer
 
-class Weapon(private var ammo: Int = -1, private val fireRate: Int = 1, private val simultaneousBullets: Int = 1) {
+class Weapon(private var ammo: Int = -1, private val fireRate: Int = 1, private val damage: Int = 5) {
 
-  def shoot(position: Vector2, bullets: ArrayBuffer[Bullet]): Unit = {
-    bullets.append(new Bullet(position = position))
+  def shoot(position: Vector2, bullets: ArrayBuffer[Bullet], playerBullet: Int): Unit = {
+    bullets.append(new Bullet(damage = damage, startPos = position, playerBullet = playerBullet))
     ammo -= 1
   }
 }

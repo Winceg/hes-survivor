@@ -10,12 +10,11 @@ import com.badlogic.gdx.Input.Keys
 import scala.collection.mutable.ArrayBuffer
 
 class Game extends PortableApplication(1920, 1080) {
-  private var imgBitmap: BitmapImage = null
-  private var playerBitmap: BitmapImage = null
-  private var badGuyBitmap: BitmapImage = null
   private var player: Player = null
-  private var enemy: Enemy = null
+  private var enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
+  private var SHOOT_TIME: Double = 1 // Duration of each frame
+  private var dt: Float = 0
 
   def initGame(): Unit = {
 
@@ -30,15 +29,11 @@ class Game extends PortableApplication(1920, 1080) {
   }
 
   override def onInit(): Unit = {
-    setTitle("Hello World - HES Survivor")
-    // Load a custom image (or from the lib "res/lib/icon64.png")
-    imgBitmap = new BitmapImage("data/images/ISC_logo.png")
-    playerBitmap = new BitmapImage("data/images/ISC_logo.png")
-    badGuyBitmap = new BitmapImage("data/images/ISC_logo.png")
-
+    setTitle("HES Survivor - Will you pass the test ?")
 
     player = new Player(name = "Raph")
-    enemy = new Enemy()
+    player.addWeapon(new Weapon(damage = 20))
+    enemies.append(new Enemy())
 
   }
 
@@ -62,22 +57,34 @@ class Game extends PortableApplication(1920, 1080) {
     /** Update bullets position */
     for(b <- bullets){
       //if(b.getPosition.x )
-      b.move()
+      b.move(b.playerBullet)
       b.draw(g)
     }
 
     /** Update and display enemy */
-    enemy.update()
-    enemy.draw1(g)
+    dt += Gdx.graphics.getDeltaTime
 
-    /** Draw stuff */
-    if (enemy.getPosition.x == width - margin) {
-      enemy.direction = -1
-    } else if (enemy.getPosition.x == margin) {
-      enemy.direction = 1
+    for(e <- enemies) {
+      if (dt > SHOOT_TIME) {
+        dt = 0
+        if (SHOOT_TIME > 0.4) {
+          SHOOT_TIME *= 0.95
+        } else {
+          SHOOT_TIME = 0.1
+        }
+        e.shoot(0, bullets)
+      }
+      e.update()
+      e.draw1(g)
+
+      /** Move enemy */
+      if (e.getPosition.x == width - margin) {
+        e.direction = -1
+      } else if (e.getPosition.x == margin) {
+        e.direction = 1
+      }
+      e.moveDelta(e.direction * 10, 0)
     }
-    enemy.moveDelta(enemy.direction * 10, 0)
-
     g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
     g.drawFPS()
     g.drawSchoolLogo()

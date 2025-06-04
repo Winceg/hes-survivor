@@ -14,13 +14,15 @@ class Player(private val name: String = "Player 1", private var level: Int = 1, 
              private var position: Vector2 = new Vector2(100, 100),
              private var weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())) extends DrawableObject with Simulatable {
 
-  val spriteDimentionX : Int = 256
+  val spriteDimentionX: Int = 256
   val spriteDimentionY: Int = 256
-  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png",spriteDimentionX,spriteDimentionY)
+  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png", spriteDimentionX, spriteDimentionY)
   private var currentFrame: Int = 0
   private val nFrames: Int = 4
   private val FRAME_TIME: Double = 0.15 // Duration of each frame
   private var dt: Float = 0
+
+  def getPosition: Vector2 = position
 
   override def draw(g: GdxGraphics): Unit = {
     g.drawFilledCircle(position.x, position.y, 15, Color.BLUE)
@@ -28,27 +30,25 @@ class Player(private val name: String = "Player 1", private var level: Int = 1, 
 
   def draw1(g: GdxGraphics, x: Float, y: Float): Unit = {
     /** Update and count sprite state */
-
     dt += Gdx.graphics.getDeltaTime
 
     if (dt > FRAME_TIME) {
       dt = 0
       currentFrame = (currentFrame + 1) % nFrames
     }
-
-    g.draw(playerSprite.sprites(0)(currentFrame),x-(spriteDimentionX)/2,y-(spriteDimentionY/2))
-
+    g.draw(playerSprite.sprites(0)(currentFrame), x - (spriteDimentionX) / 2, y - (spriteDimentionY / 2))
   }
 
-  def getPosition: Vector2 = position
+  def addWeapon(weapon: Weapon): Unit= {
+    weapons.append(weapon)
+  }
 
   def shoot(weapon: Int = 0, bullets: ArrayBuffer[Bullet]): Unit = {
     if (weapon >= weapons.length) {
-      weapons(0).shoot(position, bullets)
+      weapons(0).shoot(position, bullets, 1)
     } else {
-      weapons(weapon).shoot(position, bullets)
+      weapons(weapon).shoot(position, bullets, 1)
     }
-
   }
 
   // Every frame, we need to update

@@ -10,6 +10,7 @@ class Player(private val name: String = "Player 1",
 
   sprite = initSprite
   position = startPosition
+  characterType = 1
 
   // Every frame, we need to update
   override def update(): Unit = {

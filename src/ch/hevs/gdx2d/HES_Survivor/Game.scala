@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.graphics.Color
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
@@ -12,7 +13,7 @@ import scala.util.Random
 class Game extends PortableApplication(1920, 1080) {
   /** Base attributes */
   private var player: Player = null
-  private val enemyQty = 2
+  private val enemyQty = 4
   private val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
@@ -26,8 +27,12 @@ class Game extends PortableApplication(1920, 1080) {
 
   }
 
-  def gameOver(): Unit = {
-
+  def gameOver(win: Boolean, g: GdxGraphics): Unit = {
+    val winString: String = if(win) "won" else "lost"
+    g.clear(Color.BLACK)
+    g.drawStringCentered(getWindowHeight * 1.5f, s"You $winString !")
+    g.drawFPS()
+    g.drawSchoolLogo()
   }
 
   override def onInit(): Unit = {
@@ -66,6 +71,7 @@ class Game extends PortableApplication(1920, 1080) {
     player.update()
     player.draw(g)
     player.moveTo(mouseX, mouseY)
+    player.isCollision(bullets)
 
     /** Update bullets position */
     for (b <- bullets) {
@@ -75,7 +81,6 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update and display enemy */
     dt += Gdx.graphics.getDeltaTime
-
     for (e <- enemies) {
       if (dt > SHOOT_TIME) {
         dt = 0
@@ -84,7 +89,7 @@ class Game extends PortableApplication(1920, 1080) {
         } else {
           SHOOT_TIME = 0.1
         }
-        enemies(Random.nextInt(enemyQty - 1)).shoot(0, bullets)
+        enemies(Random.nextInt(enemies.length)).shoot(0, bullets)
       }
 
       e.update()
@@ -96,7 +101,19 @@ class Game extends PortableApplication(1920, 1080) {
       } else if (e.getPosition.x == margin) {
         e.direction = 1
       }
-      e.moveDelta(e.direction * 10, 0)
+      e.moveDelta(e.direction * 2, 0)
+      e.isCollision(bullets)
+    }
+    Enemy.die(enemies)
+
+    if (enemies.isEmpty) {
+      println("You won !")
+      gameOver(win = true, g)
+    }
+    if (player.getLifePoints <= 0) {
+      println("You lost !")
+      Enemy.die(enemies, all = true)
+      gameOver(win = false, g)
     }
 
     g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
@@ -115,6 +132,11 @@ class Game extends PortableApplication(1920, 1080) {
     }
 
   }
+
+  //  override def onDrag(x: Int, y: Int): Unit = {
+  //    super.onDrag(x, y)
+  //    player.shoot(0, bullets)
+  //  }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {

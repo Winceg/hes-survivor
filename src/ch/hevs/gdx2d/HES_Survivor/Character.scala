@@ -9,9 +9,10 @@ trait Character {
   protected var lifePoints: Int = 100
   protected var sprite: Sprite = null
   private var level: Int = 1
+  protected var characterType: Int = 0
   private val weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())
 
-/** Position and movements */
+  /** Position and movements */
   def getPosition: Vector2 = position
 
   def moveTo(x: Float, y: Float): Unit = {
@@ -27,25 +28,47 @@ trait Character {
   def addWeapon(weapon: Weapon): Unit = {
     weapons.append(weapon)
   }
+
   def getWeapons: ArrayBuffer[Weapon] = weapons
 
   def shoot(weapon: Int = 0, bullets: ArrayBuffer[Bullet]): Unit = {
     if (weapon >= getWeapons.length) {
-      weapons(0).shoot(getPosition, bullets, 1)
+      weapons(0).shoot(getPosition, bullets, characterType)
     } else {
-      weapons(weapon).shoot(getPosition, bullets, 1)
+      weapons(weapon).shoot(getPosition, bullets, characterType)
     }
   }
 
   /** Collisions and damage */
   val collisionBox: (Int, Int) = (20, 50)
 
+  def getCollisionX: (Float, Float) = (position.x - collisionBox._1, position.x + collisionBox._1)
+
+  def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
+
+  def isCollision(bullets: ArrayBuffer[Bullet]): Unit = {
+    for (b <- bullets) {
+      if (b.playerBullet == - characterType
+        && b.getPosition.x > this.getCollisionX._1
+        && b.getPosition.x < this.getCollisionX._2
+        && b.getPosition.y > this.getCollisionY._1
+        && b.getPosition.y < this.getCollisionY._2) {
+        this.takeAShot(b.getDamage)
+      }
+    }
+  }
+
   def takeAShot(damage: Int): Unit = {
     lifePoints -= damage
   }
 
+  def getLifePoints: Int = lifePoints
+
+  def displayLifePoints: String = s"Life : $lifePoints"
+
   /** Graphics */
   def draw(g: GdxGraphics): Unit = {
+    g.drawString(position.x, position.y + 100, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
 

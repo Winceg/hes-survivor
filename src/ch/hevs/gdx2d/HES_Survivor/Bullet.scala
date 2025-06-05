@@ -23,6 +23,8 @@ case class Bullet(private val damage: Int = 5,
 
   def getSprite: Sprite = sprite
 
+  def getDamage: Int = damage
+
   def move(playerBullet: Int = 1): Unit = {
     position.y += playerBullet * 10
   }

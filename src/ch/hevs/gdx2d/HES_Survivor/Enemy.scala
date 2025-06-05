@@ -14,15 +14,8 @@ case class Enemy(initSprite: Sprite,
   sprite = initSprite
   position = startPosition
   lifePoints = initLifePoints
+  characterType = -1
   var direction: Int = 1
-
-  override def shoot(weapon: Int = 0, bullets: ArrayBuffer[Bullet]): Unit = {
-    if (weapon >= getWeapons.length) {
-      getWeapons(0).shoot(position, bullets, -1)
-    } else {
-      getWeapons(weapon).shoot(position, bullets, -1)
-    }
-  }
 
   // Every frame, we need to update
   override def update(): Unit = {
@@ -51,5 +44,11 @@ object Enemy {
 
   def getEnemy(t: Int): Enemy = {
     enemiesMap(t)
+  }
+
+  def die(enemies: ArrayBuffer[Enemy], all: Boolean = false): Unit = {
+    for(e <- enemies.filter(_.getLifePoints <= 0)) {
+      enemies.remove(enemies.indexOf(e))
+    }
   }
 }

@@ -51,7 +51,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Enemies init */
     for (i <- 0 until enemyQty) {
-      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
+      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(1).getSprite).copy())
     }
 
   }

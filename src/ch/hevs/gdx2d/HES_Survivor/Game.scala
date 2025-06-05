@@ -1,8 +1,7 @@
 package ch.hevs.gdx2d.HES_Survivor
 
 import com.badlogic.gdx.{Gdx, Input}
-import com.badlogic.gdx.math.{Interpolation, Vector2}
-import ch.hevs.gdx2d.components.bitmaps.{BitmapImage, Spritesheet}
+import com.badlogic.gdx.math.Vector2
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
@@ -11,15 +10,13 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 class Game extends PortableApplication(1920, 1080) {
+  /** Base attributes */
   private var player: Player = null
-  private var enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
+  private val enemyQty = 2
+  private val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
-  private val enemyQty = 6
-  private var enemyShootIndex = 0
-  private var characterSprites: Map[Int, Sprite] = null
-
 
   def initGame(): Unit = {
 
@@ -35,25 +32,21 @@ class Game extends PortableApplication(1920, 1080) {
 
   override def onInit(): Unit = {
     setTitle("HES Survivor - Will you pass the test ?")
-
-    /** Character sprites init */
-    characterSprites = Map.apply(
-      0 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4),
-      1 -> new Sprite(256, 256, "data/images/spriteSheet/Mudry_wink_20.png", 0, 20),
-      2 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4),
-      3 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4)
-    )
-
+    Enemy.initEnemiesMap()
     Weapon.initBulletArray()
 
+    /** Get Window size */
+    val margin: Int = Gdx.graphics.getWidth / 8
+    val height: Int = Gdx.graphics.getHeight
+    val width: Int = Gdx.graphics.getWidth
+
     /** Player init */
-    player = new Player(name = "Raph", sprite = characterSprites(0))
+    player = new Player(name = "Raph", initSprite = Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4))
     player.addWeapon(new Weapon(bulletType = 1))
 
     /** Enemies init */
     for (i <- 0 until enemyQty) {
-      val spriteNr: Int = if (characterSprites.size > 2) Random.between(0, characterSprites.size - 1) + 1 else 1
-      enemies.append(new Enemy(position = new Vector2(Gdx.graphics.getWidth / 8 + enemies.length * 250, Gdx.graphics.getHeight - 100), sprite = characterSprites(spriteNr)))
+      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
     }
 
   }
@@ -71,7 +64,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update and display player */
     player.update()
-    player.draw1(g, mouseX, mouseY)
+    player.draw(g)
     player.moveTo(mouseX, mouseY)
 
     /** Update bullets position */
@@ -95,7 +88,7 @@ class Game extends PortableApplication(1920, 1080) {
       }
 
       e.update()
-      e.draw1(g)
+      e.draw(g)
 
       /** Move enemy */
       if (e.getPosition.x == width - margin) {
@@ -105,6 +98,7 @@ class Game extends PortableApplication(1920, 1080) {
       }
       e.moveDelta(e.direction * 10, 0)
     }
+
     g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
     g.drawFPS()
     g.drawSchoolLogo()

@@ -20,6 +20,7 @@ class Game extends PortableApplication(1920, 1080) {
   private var enemyShootIndex = 0
   private var characterSprites: Map[Int, Sprite] = null
 
+
   def initGame(): Unit = {
 
   }
@@ -43,9 +44,11 @@ class Game extends PortableApplication(1920, 1080) {
       3 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4)
     )
 
+    Weapon.initBulletArray()
+
     /** Player init */
     player = new Player(name = "Raph", sprite = characterSprites(0))
-    player.addWeapon(new Weapon(damage = 20))
+    player.addWeapon(new Weapon(bulletType = 1))
 
     /** Enemies init */
     for (i <- 0 until enemyQty) {
@@ -80,18 +83,6 @@ class Game extends PortableApplication(1920, 1080) {
     /** Update and display enemy */
     dt += Gdx.graphics.getDeltaTime
 
-    /* if (dt > SHOOT_TIME) {
-      dt = 0
-      if (SHOOT_TIME > 0.4) {
-        SHOOT_TIME *= 0.95
-      } else {
-        SHOOT_TIME = 0.1
-      }
-      for (e <- enemies) {
-        e.shoot(0, bullets)
-      }
-    }*/
-
     for (e <- enemies) {
       if (dt > SHOOT_TIME) {
         dt = 0
@@ -101,8 +92,6 @@ class Game extends PortableApplication(1920, 1080) {
           SHOOT_TIME = 0.1
         }
         enemies(Random.nextInt(enemyQty - 1)).shoot(0, bullets)
-        /*enemies(enemyShootIndex).shoot(0, bullets)
-        if (enemyShootIndex < enemyQty - 1) enemyShootIndex += 1 else enemyShootIndex = 0*/
       }
 
       e.update()
@@ -135,7 +124,7 @@ class Game extends PortableApplication(1920, 1080) {
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
-      player.shoot(bullets = bullets)
+      player.shoot(0, bullets)
     }
     if (button == Input.Buttons.RIGHT) {
       player.shoot(1, bullets)

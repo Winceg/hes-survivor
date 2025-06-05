@@ -50,3 +50,16 @@ class Enemy(private var level: Int = 1,
     moveTo(position.x + x, position.y + y)
   }
 }
+
+// préshot
+object Enemy {
+
+  var bulletSprites: Map[Int, Sprite] = null
+
+  def initBulletArray(): Unit = {
+    /** Character sprites init */
+    bulletSprites = Map.apply(
+      0 -> new Sprite(64, 64, "data/images/spriteSheet/player_walk.png", 0, 10)
+    )
+  }
+}

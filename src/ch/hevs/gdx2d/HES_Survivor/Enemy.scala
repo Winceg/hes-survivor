@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2
 
 import scala.collection.mutable.ArrayBuffer
 
-class Enemy(private var level: Int = 1, private var lifePoints: Int = 100, private var position: Vector2 = new Vector2(100, Gdx.graphics.getHeight - 100),
+class Enemy(private var level: Int = 1, private var lifePoints: Int = 100, private var position: Vector2,
             private var spawn: Vector2 = new Vector2(100, Gdx.graphics.getHeight - 100),
             private var weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())) extends DrawableObject with Simulatable {
 

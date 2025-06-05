@@ -1,7 +1,7 @@
 package ch.hevs.gdx2d.HES_Survivor
 
 import com.badlogic.gdx.{Gdx, Input}
-import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.{Interpolation, Vector2}
 import ch.hevs.gdx2d.components.bitmaps.{BitmapImage, Spritesheet}
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
@@ -15,6 +15,7 @@ class Game extends PortableApplication(1920, 1080) {
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
+  private val enemyQty = 3
 
   def initGame(): Unit = {
 
@@ -33,7 +34,10 @@ class Game extends PortableApplication(1920, 1080) {
 
     player = new Player(name = "Raph")
     player.addWeapon(new Weapon(damage = 20))
-    enemies.append(new Enemy())
+
+    for(i <- 0 until  enemyQty){
+      enemies.append(new Enemy(position = new Vector2(Gdx.graphics.getWidth / 8 + enemies.length * 250, Gdx.graphics.getHeight - 100)))
+    }
 
   }
 

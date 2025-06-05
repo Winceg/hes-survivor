@@ -16,7 +16,8 @@ class Game extends PortableApplication(1920, 1080) {
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
-  private val enemyQty = 3
+  private val enemyQty = 6
+  private var enemyShootIndex = 0
   private var characterSprites: Map[Int, Sprite] = null
 
   def initGame(): Unit = {
@@ -34,6 +35,7 @@ class Game extends PortableApplication(1920, 1080) {
   override def onInit(): Unit = {
     setTitle("HES Survivor - Will you pass the test ?")
 
+    /** Character sprites init */
     characterSprites = Map.apply(
       0 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4),
       1 -> new Sprite(256, 256, "data/images/spriteSheet/Mudry_wink_20.png", 0, 20),
@@ -41,22 +43,21 @@ class Game extends PortableApplication(1920, 1080) {
       3 -> new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4)
     )
 
-
+    /** Player init */
     player = new Player(name = "Raph", sprite = characterSprites(0))
     player.addWeapon(new Weapon(damage = 20))
 
+    /** Enemies init */
     for (i <- 0 until enemyQty) {
-      val spriteNr: Int = if (characterSprites.size > 2) Random.between(1, characterSprites.size - 1) else 1
-      println(s"$spriteNr/${characterSprites.size}")
+      val spriteNr: Int = if (characterSprites.size > 2) Random.between(0, characterSprites.size - 1) + 1 else 1
       enemies.append(new Enemy(position = new Vector2(Gdx.graphics.getWidth / 8 + enemies.length * 250, Gdx.graphics.getHeight - 100), sprite = characterSprites(spriteNr)))
     }
 
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
-    /** Clears the screen */
+    /** Clears the screen and get game area size */
     g.clear()
-
     val margin: Int = Gdx.graphics.getWidth / 8
     val height: Int = Gdx.graphics.getHeight
     val width: Int = Gdx.graphics.getWidth
@@ -72,13 +73,24 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update bullets position */
     for (b <- bullets) {
-      //if(b.getPosition.x )
       b.move(b.playerBullet)
       b.draw(g)
     }
 
     /** Update and display enemy */
     dt += Gdx.graphics.getDeltaTime
+
+    /* if (dt > SHOOT_TIME) {
+      dt = 0
+      if (SHOOT_TIME > 0.4) {
+        SHOOT_TIME *= 0.95
+      } else {
+        SHOOT_TIME = 0.1
+      }
+      for (e <- enemies) {
+        e.shoot(0, bullets)
+      }
+    }*/
 
     for (e <- enemies) {
       if (dt > SHOOT_TIME) {
@@ -88,8 +100,11 @@ class Game extends PortableApplication(1920, 1080) {
         } else {
           SHOOT_TIME = 0.1
         }
-        e.shoot(0, bullets)
+        enemies(Random.nextInt(enemyQty - 1)).shoot(0, bullets)
+        /*enemies(enemyShootIndex).shoot(0, bullets)
+        if (enemyShootIndex < enemyQty - 1) enemyShootIndex += 1 else enemyShootIndex = 0*/
       }
+
       e.update()
       e.draw1(g)
 

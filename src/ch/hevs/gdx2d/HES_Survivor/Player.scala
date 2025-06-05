@@ -18,14 +18,6 @@ class Player(private val name: String = "Player 1",
              private var weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())
             ) extends DrawableObject with Simulatable {
 
-  /*val spriteDimentionX: Int = 256
-  val spriteDimentionY: Int = 256
-  val playerSprite = new Spritesheet("data/images/spriteSheet/player_walk.png", spriteDimentionX, spriteDimentionY)
-  private var currentFrame: Int = 0
-  private val nFrames: Int = 4
-  private val FRAME_TIME: Double = 0.15 // Duration of each frame
-  private var dt: Float = 0*/
-
   def getPosition: Vector2 = position
 
   override def draw(g: GdxGraphics): Unit = {

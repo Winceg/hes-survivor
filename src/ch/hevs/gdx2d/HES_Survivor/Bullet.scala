@@ -5,11 +5,12 @@ import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.math.Vector2
 
 case class Bullet(private val damage: Int = 5,
-             startPos: Vector2 = new Vector2(0, 0),
-             private val trajectory: Trajectory = null,
-             var playerBullet: Int = 1,
-             private var sprite: Sprite
-            ) extends DrawableObject {
+                  startPos: Vector2 = new Vector2(0, 0),
+                  private val trajectory: Trajectory = null,
+                  var playerBullet: Int = 1,
+                  private var speed: Int = 10,
+                  private var sprite: Sprite
+                 ) extends DrawableObject {
 
   private val position: Vector2 = new Vector2()
   position.x = startPos.x
@@ -25,7 +26,10 @@ case class Bullet(private val damage: Int = 5,
 
   def getDamage: Int = damage
 
-  def move(playerBullet: Int = 1): Unit = {
-    position.y += playerBullet * 10
+  def move(): Unit = {
+    trajectory match {
+      case _ =>
+        position.y += playerBullet * speed
+    }
   }
 }

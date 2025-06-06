@@ -24,7 +24,7 @@ object Weapon {
     /** Init of the different bullet types */
     bulletMap = Map.apply(
       0 -> Bullet(damage = 1, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png", 0, 10, 0.05)),
-      1 -> Bullet(damage = 10, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png", 0, 10))
+      1 -> Bullet(damage = 10, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png", 0, 10))
     )
   }
 }

@@ -54,6 +54,13 @@ class Game extends PortableApplication(1920, 1080) {
       enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(1).getSprite).copy())
     }
 
+    /**
+     * To ask :
+     * -Case classes vs classes ?
+     * -Why do Gdx.graphics.getWidth/Height not return the same value from different places ?
+     * -Method draw in different classes : is the same, should I make a trait ? Even if it's already in one (DrawableObject) ?
+     */
+
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -75,7 +82,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update bullets position */
     for (b <- bullets) {
-      b.move(b.playerBullet)
+      b.move()
       b.draw(g)
     }
 

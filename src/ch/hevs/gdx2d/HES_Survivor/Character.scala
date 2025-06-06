@@ -40,7 +40,7 @@ trait Character {
   }
 
   /** Collisions and damage */
-  val collisionBox: (Int, Int) = (20, 50)
+  val collisionBox: (Int, Int) = (25, 50)
 
   def getCollisionX: (Float, Float) = (position.x - collisionBox._1, position.x + collisionBox._1)
 

@@ -94,17 +94,12 @@ class Game extends PortableApplication(1920, 1080) {
         enemies(Random.nextInt(enemies.length)).shoot(0, bullets)
       }
 
+      /** Move enemy */
+      e.moveDelta(2, 0)
+      e.onCollision(bullets)
       e.update()
       e.draw(g)
 
-      /** Move enemy */
-      //      if (e.getPosition.x == width - margin) {
-      //        e.direction = -1
-      //      } else if (e.getPosition.x == margin) {
-      //        e.direction = 1
-      //      }
-      e.moveDelta(2, 0)
-      e.onCollision(bullets)
     }
     Enemy.die(enemies)
     Bullet.impact(bullets)

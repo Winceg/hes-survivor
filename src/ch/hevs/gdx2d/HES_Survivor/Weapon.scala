@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
 
 class Weapon(private var ammo: Int = -1,
-//             private val fireRate: Int = 1,
+             //             private val fireRate: Int = 1,
              private val bulletType: Int = 0) {
 
   def shoot(position: Vector2, bullets: ArrayBuffer[Bullet], playerBullet: Int): Unit = {

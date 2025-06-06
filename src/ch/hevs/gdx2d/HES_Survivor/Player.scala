@@ -8,13 +8,14 @@ class Player(private val name: String = "Player 1",
              initSprite: Sprite,
             ) extends DrawableObject with Character with Simulatable {
 
+  /** Player attributes */
   sprite = initSprite
   position = startPosition
   characterType = 1
 
+  override def toString: String = name
+
   // Every frame, we need to update
   override def update(): Unit = {
   }
-
-  override def toString: String = name
 }

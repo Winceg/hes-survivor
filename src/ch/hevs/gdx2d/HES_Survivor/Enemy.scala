@@ -8,10 +8,10 @@ import scala.collection.mutable.ArrayBuffer
 case class Enemy(initSprite: Sprite,
                  startPosition: Vector2 = new Vector2(),
                  initLifePoints: Int = 50,
-                 pattern: Int = 1,
-                 private var spawn: Vector2 = new Vector2(100, Gdx.graphics.getHeight - 100)
+                 pattern: Int = 1
                 ) extends DrawableObject with Character with Simulatable {
 
+  /** Attributes */
   sprite = initSprite
   position = startPosition
   lifePoints = initLifePoints
@@ -22,11 +22,14 @@ case class Enemy(initSprite: Sprite,
     val margin: Int = Gdx.graphics.getWidth / 8
     val width: Int = Gdx.graphics.getWidth
 
+    /** Left to right movement */
     if (position.x == width - margin) {
       direction = -1
     } else if (position.x == margin) {
       direction = 1
     }
+
+    /** Different pattern are available */
     pattern match {
       case _ =>
         moveTo(position.x + direction * x, position.y + y)
@@ -58,12 +61,11 @@ object Enemy {
     )
   }
 
-  def getEnemy(t: Int): Enemy = {
-    enemiesMap(t)
-  }
+  def getEnemy(t: Int): Enemy = enemiesMap(t)
 
+  /** Removes killed enemiew from array */
   def die(enemies: ArrayBuffer[Enemy]): Unit = {
-    for(e <- enemies.filter(_.getLifePoints <= 0)) {
+    for (e <- enemies.filter(_.getLifePoints <= 0)) {
       enemies.remove(enemies.indexOf(e))
     }
   }

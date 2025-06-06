@@ -14,6 +14,7 @@ case class Bullet(private val damage: Int = 5,
                   private var sprite: Sprite
                  ) extends DrawableObject {
 
+  /** Attributes */
   private val position: Vector2 = new Vector2()
   position.x = startPos.x
   position.y = startPos.y
@@ -31,6 +32,7 @@ case class Bullet(private val damage: Int = 5,
 
   def impacted(): Unit = impact = true
 
+  /** Bullets can move on different trajectories */
   def move(): Unit = {
     trajectory match {
       case _ =>
@@ -40,6 +42,7 @@ case class Bullet(private val damage: Int = 5,
 }
 
 object Bullet {
+  /** Once a bullet has hit a target, it is removed from the array */
   def impact(bullets: ArrayBuffer[Bullet]): Unit = {
     for (b <- bullets.filter(_.impact == true)) {
       bullets.remove(bullets.indexOf(b))

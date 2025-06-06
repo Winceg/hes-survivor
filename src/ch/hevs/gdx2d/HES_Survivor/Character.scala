@@ -20,10 +20,6 @@ trait Character {
     position.y = y
   }
 
-  def moveDelta(x: Int, y: Int): Unit = {
-    moveTo(position.x + x, position.y + y)
-  }
-
   /** Weapons and shooting */
   def addWeapon(weapon: Weapon): Unit = {
     weapons.append(weapon)
@@ -54,6 +50,7 @@ trait Character {
         && b.getPosition.y > this.getCollisionY._1
         && b.getPosition.y < this.getCollisionY._2) {
         this.takeAShot(b.getDamage)
+        b.impacted()
       }
     }
   }

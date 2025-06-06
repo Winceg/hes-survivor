@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.ExecutionContext.global
 import scala.util.Random
 
 class Game extends PortableApplication(1920, 1080) {
@@ -51,7 +52,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Enemies init */
     for (i <- 0 until enemyQty) {
-      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(1).getSprite).copy())
+      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
     }
 
     /**
@@ -66,9 +67,7 @@ class Game extends PortableApplication(1920, 1080) {
   override def onGraphicRender(g: GdxGraphics): Unit = {
     /** Clears the screen and get game area size */
     g.clear()
-    val margin: Int = Gdx.graphics.getWidth / 8
     val height: Int = Gdx.graphics.getHeight
-    val width: Int = Gdx.graphics.getWidth
 
     /** Get mouse position */
     val mouseX = Gdx.input.getX
@@ -103,15 +102,16 @@ class Game extends PortableApplication(1920, 1080) {
       e.draw(g)
 
       /** Move enemy */
-      if (e.getPosition.x == width - margin) {
-        e.direction = -1
-      } else if (e.getPosition.x == margin) {
-        e.direction = 1
-      }
-      e.moveDelta(e.direction * 2, 0)
+//      if (e.getPosition.x == width - margin) {
+//        e.direction = -1
+//      } else if (e.getPosition.x == margin) {
+//        e.direction = 1
+//      }
+      e.moveDelta(2, 0)
       e.isCollision(bullets)
     }
     Enemy.die(enemies)
+    Bullet.impact(bullets)
 
     if (enemies.isEmpty) {
       println("You won !")
@@ -128,17 +128,17 @@ class Game extends PortableApplication(1920, 1080) {
     g.drawSchoolLogo()
   }
 
-  override def onKeyDown(keycode: Int): Unit = {
-    super.onKeyDown(keycode)
-
-    keycode match {
-      case Keys.LEFT =>
-        player.moveDelta(-10, 0)
-      case Keys.RIGHT =>
-        player.moveDelta(10, 0)
-    }
-
-  }
+//  override def onKeyDown(keycode: Int): Unit = {
+//    super.onKeyDown(keycode)
+//
+//    keycode match {
+//      case Keys.LEFT =>
+//        player.moveDelta(-10, 0)
+//      case Keys.RIGHT =>
+//        player.moveDelta(10, 0)
+//    }
+//
+//  }
 
   //  override def onDrag(x: Int, y: Int): Unit = {
   //    super.onDrag(x, y)

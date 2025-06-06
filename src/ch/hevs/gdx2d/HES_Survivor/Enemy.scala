@@ -8,6 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 case class Enemy(initSprite: Sprite,
                  startPosition: Vector2 = new Vector2(),
                  initLifePoints: Int = 50,
+                 pattern: Int = 1,
                  private var spawn: Vector2 = new Vector2(100, Gdx.graphics.getHeight - 100)
                 ) extends DrawableObject with Character with Simulatable {
 
@@ -16,6 +17,21 @@ case class Enemy(initSprite: Sprite,
   lifePoints = initLifePoints
   characterType = -1
   var direction: Int = 1
+
+  def moveDelta(x: Int, y: Int): Unit = {
+    val margin: Int = Gdx.graphics.getWidth / 8
+    val width: Int = Gdx.graphics.getWidth
+
+    if (position.x == width - margin) {
+      direction = -1
+    } else if (position.x == margin) {
+      direction = 1
+    }
+    pattern match {
+      case _ =>
+        moveTo(position.x + direction * x, position.y + y)
+    }
+  }
 
   // Every frame, we need to update
   override def update(): Unit = {

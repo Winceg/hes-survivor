@@ -4,6 +4,8 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.math.Vector2
 
+import scala.collection.mutable.ArrayBuffer
+
 case class Bullet(private val damage: Int = 5,
                   startPos: Vector2 = new Vector2(0, 0),
                   private val trajectory: Trajectory = null,
@@ -15,6 +17,7 @@ case class Bullet(private val damage: Int = 5,
   private val position: Vector2 = new Vector2()
   position.x = startPos.x
   position.y = startPos.y
+  private var impact: Boolean = false
 
   override def draw(g: GdxGraphics): Unit = {
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
@@ -26,10 +29,20 @@ case class Bullet(private val damage: Int = 5,
 
   def getDamage: Int = damage
 
+  def impacted(): Unit = impact = true
+
   def move(): Unit = {
     trajectory match {
       case _ =>
         position.y += playerBullet * speed
+    }
+  }
+}
+
+object Bullet {
+  def impact(bullets: ArrayBuffer[Bullet]): Unit = {
+    for (b <- bullets.filter(_.impact == true)) {
+      bullets.remove(bullets.indexOf(b))
     }
   }
 }

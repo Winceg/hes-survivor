@@ -62,7 +62,7 @@ object Enemy {
     enemiesMap(t)
   }
 
-  def die(enemies: ArrayBuffer[Enemy], all: Boolean = false): Unit = {
+  def die(enemies: ArrayBuffer[Enemy]): Unit = {
     for(e <- enemies.filter(_.getLifePoints <= 0)) {
       enemies.remove(enemies.indexOf(e))
     }

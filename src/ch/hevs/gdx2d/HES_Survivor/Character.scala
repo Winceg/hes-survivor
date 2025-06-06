@@ -8,12 +8,12 @@ trait Character {
   protected var position: Vector2 = new Vector2(100, 100)
   protected var lifePoints: Int = 100
   protected var sprite: Sprite = null
-  private var level: Int = 1
+//  private var level: Int = 1
   protected var characterType: Int = 0
   private val weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())
 
   /** Position and movements */
-  def getPosition: Vector2 = position
+  private def getPosition: Vector2 = position
 
   def moveTo(x: Float, y: Float): Unit = {
     position.x = x
@@ -25,7 +25,7 @@ trait Character {
     weapons.append(weapon)
   }
 
-  def getWeapons: ArrayBuffer[Weapon] = weapons
+  private def getWeapons: ArrayBuffer[Weapon] = weapons
 
   def shoot(weapon: Int = 0, bullets: ArrayBuffer[Bullet]): Unit = {
     if (weapon >= getWeapons.length) {
@@ -36,13 +36,13 @@ trait Character {
   }
 
   /** Collisions and damage */
-  val collisionBox: (Int, Int) = (25, 50)
+  private val collisionBox: (Int, Int) = (25, 50)
 
-  def getCollisionX: (Float, Float) = (position.x - collisionBox._1, position.x + collisionBox._1)
+  private def getCollisionX: (Float, Float) = (position.x - collisionBox._1, position.x + collisionBox._1)
 
-  def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
+  private def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
 
-  def isCollision(bullets: ArrayBuffer[Bullet]): Unit = {
+  def onCollision(bullets: ArrayBuffer[Bullet]): Unit = {
     for (b <- bullets) {
       if (b.playerBullet == - characterType
         && b.getPosition.x > this.getCollisionX._1
@@ -55,13 +55,13 @@ trait Character {
     }
   }
 
-  def takeAShot(damage: Int): Unit = {
+  private def takeAShot(damage: Int): Unit = {
     lifePoints -= damage
   }
 
   def getLifePoints: Int = lifePoints
 
-  def displayLifePoints: String = s"Life : $lifePoints"
+  private def displayLifePoints: String = s"Life : $lifePoints"
 
   /** Graphics */
   def draw(g: GdxGraphics): Unit = {

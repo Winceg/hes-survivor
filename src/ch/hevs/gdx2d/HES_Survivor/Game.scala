@@ -4,11 +4,8 @@ import com.badlogic.gdx.{Gdx, Input}
 import com.badlogic.gdx.math.Vector2
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
-import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
-
 import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.ExecutionContext.global
 import scala.util.Random
 
 class Game extends PortableApplication(1920, 1080) {
@@ -20,16 +17,16 @@ class Game extends PortableApplication(1920, 1080) {
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
 
-  def initGame(): Unit = {
+  //  def initGame(): Unit = {
+  //
+  //  }
+  //
+  //  def initLevel(level: Level): Unit = {
+  //
+  //  }
 
-  }
-
-  def initLevel(level: Level): Unit = {
-
-  }
-
-  def gameOver(win: Boolean, g: GdxGraphics): Unit = {
-    val winString: String = if(win) "won" else "lost"
+  private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
+    val winString: String = if (win) "won" else "lost"
     g.clear(Color.BLACK)
     g.drawStringCentered(getWindowHeight * 1.5f, s"You $winString !")
     g.drawFPS()
@@ -51,7 +48,7 @@ class Game extends PortableApplication(1920, 1080) {
     player.addWeapon(new Weapon(bulletType = 1))
 
     /** Enemies init */
-    for (i <- 0 until enemyQty) {
+    for (_ <- 0 until enemyQty) {
       enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
     }
 
@@ -61,7 +58,6 @@ class Game extends PortableApplication(1920, 1080) {
      * -Why do Gdx.graphics.getWidth/Height not return the same value from different places ?
      * -Method draw in different classes : is the same, should I make a trait ? Even if it's already in one (DrawableObject) ?
      */
-
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -77,7 +73,7 @@ class Game extends PortableApplication(1920, 1080) {
     player.update()
     player.draw(g)
     player.moveTo(mouseX, mouseY)
-    player.isCollision(bullets)
+    player.onCollision(bullets)
 
     /** Update bullets position */
     for (b <- bullets) {
@@ -102,13 +98,13 @@ class Game extends PortableApplication(1920, 1080) {
       e.draw(g)
 
       /** Move enemy */
-//      if (e.getPosition.x == width - margin) {
-//        e.direction = -1
-//      } else if (e.getPosition.x == margin) {
-//        e.direction = 1
-//      }
+      //      if (e.getPosition.x == width - margin) {
+      //        e.direction = -1
+      //      } else if (e.getPosition.x == margin) {
+      //        e.direction = 1
+      //      }
       e.moveDelta(2, 0)
-      e.isCollision(bullets)
+      e.onCollision(bullets)
     }
     Enemy.die(enemies)
     Bullet.impact(bullets)
@@ -119,7 +115,7 @@ class Game extends PortableApplication(1920, 1080) {
     }
     if (player.getLifePoints <= 0) {
       println("You lost !")
-      Enemy.die(enemies, all = true)
+      Enemy.die(enemies)
       gameOver(win = false, g)
     }
 
@@ -128,17 +124,17 @@ class Game extends PortableApplication(1920, 1080) {
     g.drawSchoolLogo()
   }
 
-//  override def onKeyDown(keycode: Int): Unit = {
-//    super.onKeyDown(keycode)
-//
-//    keycode match {
-//      case Keys.LEFT =>
-//        player.moveDelta(-10, 0)
-//      case Keys.RIGHT =>
-//        player.moveDelta(10, 0)
-//    }
-//
-//  }
+  //  override def onKeyDown(keycode: Int): Unit = {
+  //    super.onKeyDown(keycode)
+  //
+  //    keycode match {
+  //      case Keys.LEFT =>
+  //        player.moveDelta(-10, 0)
+  //      case Keys.RIGHT =>
+  //        player.moveDelta(10, 0)
+  //    }
+  //
+  //  }
 
   //  override def onDrag(x: Int, y: Int): Unit = {
   //    super.onDrag(x, y)

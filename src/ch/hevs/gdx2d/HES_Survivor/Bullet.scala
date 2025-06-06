@@ -8,7 +8,7 @@ import scala.collection.mutable.ArrayBuffer
 
 case class Bullet(private val damage: Int = 5,
                   startPos: Vector2 = new Vector2(0, 0),
-                  private val trajectory: Trajectory = null,
+                  private val trajectory: Int = 0,
                   var playerBullet: Int = 1,
                   private var speed: Int = 10,
                   private var sprite: Sprite

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
 
 class Weapon(private var ammo: Int = -1,
-             private val fireRate: Int = 1,
+//             private val fireRate: Int = 1,
              private val bulletType: Int = 0) {
 
   def shoot(position: Vector2, bullets: ArrayBuffer[Bullet], playerBullet: Int): Unit = {
@@ -25,7 +25,7 @@ object Weapon {
     bulletMap = Map.apply(
       0 -> Bullet(damage = 1, sprite = Sprite(64, 64, "data/images/spriteSheet/bullet_integral.jpg", 0, 8, 0.05)),
       1 -> Bullet(damage = 10, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/bullet_sum.jpg", 0, 8)),
-      2 -> Bullet(damage = 5, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png", 0, 10)),
+      2 -> Bullet(damage = 6, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png")),
       3 -> Bullet(damage = 7, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/bullet_lim.jpg", 0, 8))
     )
   }

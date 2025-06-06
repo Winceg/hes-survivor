@@ -10,7 +10,7 @@ import scala.util.Random
 
 class Game extends PortableApplication(1920, 1080) {
   /** Base attributes */
-  private var player: Player = null
+  private var player: Player = _
   private val enemyQty = 4
   private val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
@@ -21,7 +21,7 @@ class Game extends PortableApplication(1920, 1080) {
   //
   //  }
   //
-  //  def initLevel(level: Level): Unit = {
+  //  def initLevel(): Unit = {
   //
   //  }
 

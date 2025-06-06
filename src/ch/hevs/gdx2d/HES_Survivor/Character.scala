@@ -7,7 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 trait Character {
   protected var position: Vector2 = new Vector2(100, 100)
   protected var lifePoints: Int = 100
-  protected var sprite: Sprite = null
+  protected var sprite: Sprite = _
 //  private var level: Int = 1
   protected var characterType: Int = 0
   private val weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())

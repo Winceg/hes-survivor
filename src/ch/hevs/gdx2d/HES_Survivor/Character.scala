@@ -3,7 +3,6 @@ package ch.hevs.gdx2d.HES_Survivor
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
-
 import scala.collection.mutable.ArrayBuffer
 
 trait Character {
@@ -31,11 +30,11 @@ trait Character {
 
   private def getWeapons: ArrayBuffer[Weapon] = weapons
 
-  def shoot(weapon: Int = 0, bullets: ArrayBuffer[Bullet]): Unit = {
+  def shoot(weapon: Int = 0): Unit = {
     if (weapon >= getWeapons.length) {
-      weapons(0).shoot(getPosition, bullets, characterType)
+      weapons(0).shoot(getPosition, characterType)
     } else {
-      weapons(weapon).shoot(getPosition, bullets, characterType)
+      weapons(weapon).shoot(getPosition, characterType)
     }
   }
 
@@ -44,8 +43,8 @@ trait Character {
 
   private def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
 
-  def onCollision(bullets: ArrayBuffer[Bullet]): Unit = {
-    for (b <- bullets) {
+  def onCollision(): Unit = {
+    for (b <- Game.bullets) {
       if (b.playerBullet == -characterType
         && b.getPosition.x > this.getCollisionX._1
         && b.getPosition.x < this.getCollisionX._2
@@ -57,13 +56,25 @@ trait Character {
     }
   }
 
+  def onCollisionWithEnemy(): Unit = {
+    for (e <- Game.enemies) {
+      if (characterType == 1
+        && e.getPosition.x > this.getCollisionX._1
+        && e.getPosition.x < this.getCollisionX._2
+        && e.getPosition.y > this.getCollisionY._1
+        && e.getPosition.y < this.getCollisionY._2) {
+        this.takeAShot(1) //e.getDamage)
+      }
+    }
+  }
+
   private def takeAShot(damage: Int): Unit = {
     lifePoints -= damage
   }
 
   def getLifePoints: Int = lifePoints
 
-  private def displayLifePoints: String = s"Life : $lifePoints"
+  //private def displayLifePoints: String = s"Life : $lifePoints"
 
   private def displayLifeBar(g: GdxGraphics): Unit = {
     def lifeBarColor(): Color = if (lifePoints > 25) Color.LIME else if (lifePoints > 5) Color.YELLOW else Color.RED
@@ -87,11 +98,8 @@ trait Character {
   def draw(g: GdxGraphics): Unit = {
     displayLifeBar(g)
     g.setColor(Color.BLACK)
-    g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
+    //g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
     //g.drawString(position.x, position.y + 100, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
-
-  def getSprite: Sprite = sprite
-
 }

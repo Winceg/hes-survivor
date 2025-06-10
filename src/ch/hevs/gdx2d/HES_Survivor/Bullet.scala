@@ -43,9 +43,9 @@ case class Bullet(private val damage: Int = 5,
 
 object Bullet {
   /** Once a bullet has hit a target, it is removed from the array */
-  def impact(bullets: ArrayBuffer[Bullet]): Unit = {
-    for (b <- bullets.filter(_.impact == true)) {
-      bullets.remove(bullets.indexOf(b))
+  def impact(): Unit = {
+    for (b <- Game.bullets.filter(_.impact == true)) {
+      Game.bullets.remove(Game.bullets.indexOf(b))
     }
   }
 }

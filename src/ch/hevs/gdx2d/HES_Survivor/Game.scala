@@ -4,6 +4,7 @@ import com.badlogic.gdx.{Gdx, Input}
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.graphics.Color
+
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -12,15 +13,15 @@ object Game {
   val width: Int = 1920
   val margin: Int = width / 8
   val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
+  var SHOOT_TIME: Double = 1 // Duration of each frame
+  var dt: Float = 0
+  var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
 }
 
 class Game extends PortableApplication(Game.width, Game.height) {
   /** Base attributes */
   private var player: Player = _
   private var enemyQty = 6
-  var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
-  private var SHOOT_TIME: Double = 1 // Duration of each frame
-  private var dt: Float = 0
   private var currentWave: Int = 1
 
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
@@ -53,37 +54,38 @@ class Game extends PortableApplication(Game.width, Game.height) {
     /** Update and display player */
     player.draw(g)
     player.moveTo(mouseX, mouseY)
-    player.onCollision(bullets)
+    player.onCollision()
+    player.onCollisionWithEnemy()
 
     /** Update bullets position */
-    for (b <- bullets) {
+    for (b <- Game.bullets) {
       b.move()
       b.draw(g)
     }
 
     /** Update and display enemy */
-    dt += Gdx.graphics.getDeltaTime
+    Game.dt += Gdx.graphics.getDeltaTime
     for (e <- Game.enemies) {
-      if (dt > SHOOT_TIME) {
-        dt = 0
-        if (SHOOT_TIME > 0.4) {
-          SHOOT_TIME *= 0.95
+      if (Game.dt > Game.SHOOT_TIME) {
+        Game.dt = 0
+        if (Game.SHOOT_TIME > 0.4) {
+          Game.SHOOT_TIME *= 0.95
         } else {
-          SHOOT_TIME = 0.1
+          Game.SHOOT_TIME = 0.1
         }
-        Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0, bullets)
+        Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0)
       }
 
       /** Move enemy */
       e.moveDelta(2, 0)
-      e.onCollision(bullets)
+      e.onCollision()
       e.draw(g)
 
     }
     // check if ennemi are dead and remove them
     Enemy.die()
     // check if ennemi are dead and remove them
-    Bullet.impact(bullets)
+    Bullet.impact()
 
     // rajouter un if enemies Empti , on recréer des instance , on incrémente la current wave , et on refait un spawn
     if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vancu
@@ -96,7 +98,6 @@ class Game extends PortableApplication(Game.width, Game.height) {
       gameOver(win = false, g)
     }
 
-    g.drawStringCentered(getWindowHeight * 0.8f, "Welcome to gdx2d !")
     g.drawFPS()
     g.drawSchoolLogo()
   }
@@ -115,15 +116,15 @@ class Game extends PortableApplication(Game.width, Game.height) {
 
     override def onDrag(x: Int, y: Int): Unit = {
       super.onDrag(x, y)
-      player.shoot(0, bullets)
+      player.shoot(0)
     }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
-      player.shoot(0, bullets)
+      player.shoot()
     }
     if (button == Input.Buttons.RIGHT) {
-      player.shoot(1, bullets)
+      player.shoot(1)
     }
   }
 }

@@ -46,10 +46,10 @@ object Enemy {
 
   /** Enemies sprites init */
   private val characterSprites: Map[Int, Sprite] = Map.apply(
-    0 -> Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4),
-    1 -> Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 20),
-    2 -> Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4),
-    3 -> Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4)
+    0 -> Sprite(128, 128, "data/images/spriteSheet/jaquemet_walk_128_4.png", 0, 4),
+    1 -> Sprite(128, 128, "data/images/spriteSheet/Mudry_walk_128_4.png", 0, 4),
+    2 -> Sprite(128, 128, "data/images/spriteSheet/General_walk_128_4.png", 0, 4),
+    3 -> Sprite(128, 128, "data/images/spriteSheet/Mudry_Wink_20.png", 0, 20)
   )
 
   def initEnemiesMap(): Unit = {

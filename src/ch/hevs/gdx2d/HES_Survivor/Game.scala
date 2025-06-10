@@ -17,6 +17,7 @@ class Game extends PortableApplication(1920, 1080) {
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
 
+
   //  def initGame(): Unit = {
   //
   //  }
@@ -50,7 +51,12 @@ class Game extends PortableApplication(1920, 1080) {
     /** Enemies init */
     for (_ <- 0 until enemyQty) {
       enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
+      enemies.append(Enemy.getEnemy(1).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (150 + margin ) / 2), initSprite = Enemy.getEnemy(1).getSprite).copy())
+      enemies.append(Enemy.getEnemy(2).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (300 + margin ) / 2), initSprite = Enemy.getEnemy(2).getSprite).copy())
+      enemies.append(Enemy.getEnemy(3).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (400 + margin ) / 2), initSprite = Enemy.getEnemy(3).getSprite).copy())
     }
+
+
 
     /**
      * To ask :
@@ -63,6 +69,7 @@ class Game extends PortableApplication(1920, 1080) {
   override def onGraphicRender(g: GdxGraphics): Unit = {
     /** Clears the screen and get game area size */
     g.clear()
+    g.setBackgroundColor(Color.RED)
     val height: Int = Gdx.graphics.getHeight
 
     /** Get mouse position */

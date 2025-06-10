@@ -11,11 +11,12 @@ import scala.util.Random
 class Game extends PortableApplication(1920, 1080) {
   /** Base attributes */
   private var player: Player = _
-  private val enemyQty = 4
+  private var enemyQty = 4
   private val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
+  private var currentWave: Int = 1
 
 
   //  def initGame(): Unit = {
@@ -49,14 +50,8 @@ class Game extends PortableApplication(1920, 1080) {
     player.addWeapon(new Weapon(bulletType = 1))
 
     /** Enemies init */
-    for (_ <- 0 until enemyQty) {
-      enemies.append(Enemy.getEnemy(0).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - margin / 2), initSprite = Enemy.getEnemy(0).getSprite).copy())
-      enemies.append(Enemy.getEnemy(1).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (150 + margin ) / 2), initSprite = Enemy.getEnemy(1).getSprite).copy())
-      enemies.append(Enemy.getEnemy(2).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (300 + margin ) / 2), initSprite = Enemy.getEnemy(2).getSprite).copy())
-      enemies.append(Enemy.getEnemy(3).copy(startPosition = new Vector2(width / 8 + enemies.length * 250, height - (400 + margin ) / 2), initSprite = Enemy.getEnemy(3).getSprite).copy())
-    }
 
-
+    Enemy.waveSpawn(enemies,currentWave,enemyQty)
 
     /**
      * To ask :
@@ -108,10 +103,13 @@ class Game extends PortableApplication(1920, 1080) {
       e.draw(g)
 
     }
+    // check if ennemi are dead and remove them
     Enemy.die(enemies)
+    // check if ennemi are dead and remove them
     Bullet.impact(bullets)
 
-    if (enemies.isEmpty) {
+    // rajouter un if enemies Empti , on recréer des instance , on incrémente la current wave , et on refait un spawn
+    if (enemies.isEmpty) { // ici modifier , quand le boss est vancu
       println("You won !")
       gameOver(win = true, g)
     }

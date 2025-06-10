@@ -14,16 +14,14 @@ JO - fond et scroll
 - FirerateFix
 - mouvements (chaque ennemi)
 - Hitbox
-
-
-
-
+- collision hitbox joueur + hitbox enemy
 
 
 
 
 
 == SECONDAIRE ==
+- faire disparaitre les bullets quand elles touchent les Margins
 - vague de bosse
 - Explosions srpite
 - barre de vie ennemis

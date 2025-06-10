@@ -4,6 +4,7 @@ import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 case class Enemy(initSprite: Sprite,
                  startPosition: Vector2 = new Vector2(),
@@ -17,10 +18,12 @@ case class Enemy(initSprite: Sprite,
   lifePoints = initLifePoints
   characterType = -1
   var direction: Int = 1
+  val width: Int = Gdx.graphics.getWidth
+  val margin: Int = Gdx.graphics.getWidth / 8
 
   def moveDelta(x: Int, y: Int): Unit = {
-    val margin: Int = Gdx.graphics.getWidth / 8
-    val width: Int = Gdx.graphics.getWidth
+
+
 
     /** Left to right movement */
     if (position.x == width - margin) {
@@ -43,6 +46,8 @@ case class Enemy(initSprite: Sprite,
 
 object Enemy {
   private var enemiesMap: Map[Int, Enemy] = Map.empty
+  val width: Int = Gdx.graphics.getWidth
+  val margin: Int = Gdx.graphics.getWidth / 8
 
   /** Enemies sprites init */
   private val characterSprites: Map[Int, Sprite] = Map.apply(
@@ -62,6 +67,16 @@ object Enemy {
   }
 
   def getEnemy(t: Int): Enemy = enemiesMap(t)
+
+  def waveSpawn(e: ArrayBuffer[Enemy],wave: Int,enemyQty : Int): Unit = {
+    for (_ <- 0 until enemyQty) {
+      // e.append(Enemy.getEnemy(Random.between(0,3)).copy(startPosition = new Vector2(Random.between((Gdx.graphics.getWidth + margin).toFloat, 150 ), (Gdx.graphics.getHeight-100).toFloat), initSprite = Enemy.getEnemy(0).getSprite).copy())
+      e.append(Enemy.getEnemy(Random.between(0,3)).copy(startPosition = new Vector2( 300 , 150 ), initSprite = Enemy.getEnemy(0).getSprite).copy())
+    }
+  }
+  def spawn(e: ArrayBuffer[Enemy]) :Unit = {
+
+  }
 
   /** Removes killed enemiew from array */
   def die(enemies: ArrayBuffer[Enemy]): Unit = {

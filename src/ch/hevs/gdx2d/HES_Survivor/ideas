@@ -14,7 +14,7 @@ JO - fond et scroll
 - FirerateFix
 - mouvements (chaque ennemi)
 - Hitbox [v]
-- collision hitbox joueur + hitbox enemy
+- collision hitbox joueur + hitbox enemy [v]
 
 
 

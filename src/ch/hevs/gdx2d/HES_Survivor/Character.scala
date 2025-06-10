@@ -11,9 +11,10 @@ trait Character {
   protected var position: Vector2 = new Vector2(100, 100)
   protected var lifePoints: Int = 100
   protected var sprite: Sprite = _
-  //  private var level: Int = 1
   protected var characterType: Int = 0
-  private val weapons: ArrayBuffer[Weapon] = ArrayBuffer(new Weapon())
+  private val weapons: ArrayBuffer[Weapon] = ArrayBuffer.empty
+  protected var collisionBox: (Int, Int) = _
+  //  private var level: Int = 1
 
   /** Position and movements */
   private def getPosition: Vector2 = position
@@ -39,8 +40,6 @@ trait Character {
   }
 
   /** Collisions and damage */
-  private val collisionBox: (Int, Int) = (25, 50)
-
   private def getCollisionX: (Float, Float) = (position.x - collisionBox._1, position.x + collisionBox._1)
 
   private def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
@@ -67,18 +66,29 @@ trait Character {
   private def displayLifePoints: String = s"Life : $lifePoints"
 
   private def displayLifeBar(g: GdxGraphics): Unit = {
-    var color: Color = if (lifePoints > 25) Color.LIME else if (lifePoints > 5) Color.YELLOW else Color.RED
-    g.setColor(Color.LIGHT_GRAY)
-    g.drawRectangle(150, 50, 200, 20, 0)
-    for (x <- 0 to 2 * lifePoints) {
-      g.drawFilledRectangle(x + 50, 50, 1, 20, 0, color)
+    def lifeBarColor(): Color = if (lifePoints > 25) Color.LIME else if (lifePoints > 5) Color.YELLOW else Color.RED
+
+    if (characterType == 1) {
+      g.setColor(Color.BLACK)
+      for (x <- 0 to 2 * lifePoints) {
+        g.drawFilledRectangle(x + 50, 50, 1, 20, 0, lifeBarColor())
+      }
+      g.drawRectangle(150, 50, 202, 20, 0)
+    } else {
+      g.setColor(Color.BLACK)
+      for (x <- 0 to 2 * lifePoints) {
+        g.drawFilledRectangle(position.x + x - 50, position.y + 80, 1, 10, 0, lifeBarColor())
+      }
+      g.drawRectangle(position.x, position.y + 80, 102, 10, 0)
     }
   }
 
   /** Graphics */
   def draw(g: GdxGraphics): Unit = {
     displayLifeBar(g)
-    g.drawString(position.x, position.y + 100, displayLifePoints)
+    g.setColor(Color.BLACK)
+    g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
+    //g.drawString(position.x, position.y + 100, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
 

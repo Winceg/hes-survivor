@@ -10,10 +10,10 @@ JO - fond et scroll
     Win = vague 10 , mega mudry qui tire pleins de balles
 
 ==> RAPH
-- diversité des balles (par ennemi)
+- diversité des balles (par ennemi) [v]
 - FirerateFix
 - mouvements (chaque ennemi)
-- Hitbox
+- Hitbox [v]
 - collision hitbox joueur + hitbox enemy
 
 

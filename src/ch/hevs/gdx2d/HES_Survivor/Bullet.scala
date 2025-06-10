@@ -2,6 +2,7 @@ package ch.hevs.gdx2d.HES_Survivor
 
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 
 import scala.collection.mutable.ArrayBuffer
@@ -26,8 +27,6 @@ case class Bullet(private val damage: Int = 5,
 
   def getPosition: Vector2 = position
 
-  def getSprite: Sprite = sprite
-
   def getDamage: Int = damage
 
   def impacted(): Unit = impact = true
@@ -38,6 +37,7 @@ case class Bullet(private val damage: Int = 5,
       case _ =>
         position.y += playerBullet * speed
     }
+    if (position.y >= Gdx.graphics.getHeight) impacted()
   }
 }
 

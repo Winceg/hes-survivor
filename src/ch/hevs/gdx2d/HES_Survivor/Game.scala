@@ -1,31 +1,27 @@
 package ch.hevs.gdx2d.HES_Survivor
 
 import com.badlogic.gdx.{Gdx, Input}
-import com.badlogic.gdx.math.Vector2
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.graphics.Color
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-class Game extends PortableApplication(1920, 1080) {
+object Game {
+  val height: Int = 1080
+  val width: Int = 1920
+  val margin: Int = width / 8
+  val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
+}
+
+class Game extends PortableApplication(Game.width, Game.height) {
   /** Base attributes */
   private var player: Player = _
-  private var enemyQty = 4
-  private val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
+  private var enemyQty = 6
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   private var SHOOT_TIME: Double = 1 // Duration of each frame
   private var dt: Float = 0
   private var currentWave: Int = 1
-
-
-  //  def initGame(): Unit = {
-  //
-  //  }
-  //
-  //  def initLevel(): Unit = {
-  //
-  //  }
 
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
     val winString: String = if (win) "won" else "lost"
@@ -37,42 +33,24 @@ class Game extends PortableApplication(1920, 1080) {
 
   override def onInit(): Unit = {
     setTitle("HES Survivor - Will you pass the test ?")
-    Enemy.initEnemiesMap()
-    Weapon.initBulletArray()
-
-    /** Get Window size */
-    val margin: Int = Gdx.graphics.getWidth / 8
-    val height: Int = Gdx.graphics.getHeight
-    val width: Int = Gdx.graphics.getWidth
 
     /** Player init */
-    player = new Player(name = "Raph", initSprite = Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4))
-    player.addWeapon(new Weapon(bulletType = 1))
+    player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4))
 
     /** Enemies init */
-
-    Enemy.waveSpawn(enemies,currentWave,enemyQty)
-
-    /**
-     * To ask :
-     * -Case classes vs classes ?
-     * -Why do Gdx.graphics.getWidth/Height not return the same value from different places ?
-     * -Method draw in different classes : is the same, should I make a trait ? Even if it's already in one (DrawableObject) ?
-     */
+    Enemy.waveSpawn(currentWave,enemyQty)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
     /** Clears the screen and get game area size */
     g.clear()
-    g.setBackgroundColor(Color.RED)
-    val height: Int = Gdx.graphics.getHeight
+    g.setBackgroundColor(Color.LIGHT_GRAY)
 
     /** Get mouse position */
     val mouseX = Gdx.input.getX
-    val mouseY = height - Gdx.input.getY
+    val mouseY = Game.height - Gdx.input.getY
 
     /** Update and display player */
-    player.update()
     player.draw(g)
     player.moveTo(mouseX, mouseY)
     player.onCollision(bullets)
@@ -85,7 +63,7 @@ class Game extends PortableApplication(1920, 1080) {
 
     /** Update and display enemy */
     dt += Gdx.graphics.getDeltaTime
-    for (e <- enemies) {
+    for (e <- Game.enemies) {
       if (dt > SHOOT_TIME) {
         dt = 0
         if (SHOOT_TIME > 0.4) {
@@ -93,29 +71,28 @@ class Game extends PortableApplication(1920, 1080) {
         } else {
           SHOOT_TIME = 0.1
         }
-        enemies(Random.nextInt(enemies.length)).shoot(0, bullets)
+        Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0, bullets)
       }
 
       /** Move enemy */
       e.moveDelta(2, 0)
       e.onCollision(bullets)
-      e.update()
       e.draw(g)
 
     }
     // check if ennemi are dead and remove them
-    Enemy.die(enemies)
+    Enemy.die()
     // check if ennemi are dead and remove them
     Bullet.impact(bullets)
 
     // rajouter un if enemies Empti , on recréer des instance , on incrémente la current wave , et on refait un spawn
-    if (enemies.isEmpty) { // ici modifier , quand le boss est vancu
+    if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vancu
       println("You won !")
       gameOver(win = true, g)
     }
     if (player.getLifePoints <= 0) {
       println("You lost !")
-      Enemy.die(enemies)
+      Enemy.die()
       gameOver(win = false, g)
     }
 
@@ -136,10 +113,10 @@ class Game extends PortableApplication(1920, 1080) {
   //
   //  }
 
-  //  override def onDrag(x: Int, y: Int): Unit = {
-  //    super.onDrag(x, y)
-  //    player.shoot(0, bullets)
-  //  }
+    override def onDrag(x: Int, y: Int): Unit = {
+      super.onDrag(x, y)
+      player.shoot(0, bullets)
+    }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
@@ -150,3 +127,4 @@ class Game extends PortableApplication(1920, 1080) {
     }
   }
 }
+

@@ -1,32 +1,23 @@
 package ch.hevs.gdx2d.HES_Survivor
 
-import ch.hevs.gdx2d.HES_Survivor.Weapon.bulletMap
 import com.badlogic.gdx.math.Vector2
-
 import scala.collection.mutable.ArrayBuffer
 
-class Weapon(private var ammo: Int = -1,
-             //             private val fireRate: Int = 1,
-             private val bulletType: Int = 0) {
+class Weapon(private val bulletType: Int = 0
+             //private val fireRate: Int = 1
+            ) {
 
   def shoot(position: Vector2, bullets: ArrayBuffer[Bullet], playerBullet: Int): Unit = {
-    val bulletShot: Bullet = bulletMap(bulletType).copy(startPos = position, playerBullet = playerBullet, sprite = bulletMap(bulletType).getSprite.copy())
-    bullets.append(bulletShot)
-
-    ammo -= 1
+    //val bulletShot: Bullet = bulletMap(bulletType).copy(startPos = position, playerBullet = playerBullet, sprite = bulletMap(bulletType).getSprite.copy())
+    bullets.append(createBullet(bulletType, position, playerBullet))
   }
-}
 
-object Weapon {
-  var bulletMap: Map[Int, Bullet] = Map.empty
-
-  def initBulletArray(): Unit = {
-    /** Init of the different bullet types */
-    bulletMap = Map.apply(
-      0 -> Bullet(damage = 1, sprite = Sprite(64, 64, "data/images/spriteSheet/integral_64_8.png", 0, 8, 0.05)),
-      1 -> Bullet(damage = 10, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/sum_64_8.png", 0, 8)),
-      2 -> Bullet(damage = 6, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png")),
-      3 -> Bullet(damage = 7, speed = 18, sprite = Sprite(64, 64, "data/images/spriteSheet/limit_64_8.png", 0, 8))
-    )
+  private def createBullet(bulletType: Int, position: Vector2, playerBullet: Int): Bullet = {
+    bulletType match {
+      case 0 => new Bullet(damage = 10, startPos = position, playerBullet = playerBullet, sprite = new Sprite(64, 64, "data/images/spriteSheet/integral_64_8.png", 0, 8, 0.05))
+      case 1 => new Bullet(damage = 8, startPos = position, playerBullet = playerBullet, speed = 18, sprite = new Sprite(64, 64, "data/images/spriteSheet/sum_64_8.png", 0, 8))
+      case 2 => new Bullet(damage = 6, startPos = position, playerBullet = playerBullet, speed = 18, sprite = new Sprite(64, 64, "data/images/spriteSheet/ScalaBullet_64_10.png"))
+      case 3 => new Bullet(damage = 7, startPos = position, playerBullet = playerBullet, speed = 18, sprite = new Sprite(64, 64, "data/images/spriteSheet/limit_64_8.png", 0, 8))
+    }
   }
 }

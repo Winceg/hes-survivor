@@ -1,7 +1,8 @@
 package ch.hevs.gdx2d.HES_Survivor
 
+import ch.hevs.gdx2d.HES_Survivor.Game.screen
 import com.badlogic.gdx.{Gdx, Input}
-import ch.hevs.gdx2d.lib.GdxGraphics
+import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
@@ -10,21 +11,21 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 object Game {
-  val height: Int = 1080
-  val width: Int = 1920
-  val margin: Int = width / 8
+
+
   val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var SHOOT_TIME: Double = 1 // Duration of each frame
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
   var enemyQty = 6
+  var screen: ScreenManager = new ScreenManager()
 }
 
-class Game extends PortableApplication(Game.width, Game.height) {
+class Game extends PortableApplication(Main.width, Main.height) {
   /** Base attributes */
   private var player: Player = _
-
+  // modify to screenmanager
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
     val winString: String = if (win) "won" else "lost"
     g.clear(Color.BLACK)
@@ -37,7 +38,7 @@ class Game extends PortableApplication(Game.width, Game.height) {
     setTitle("HES Survivor - Will you pass the test ?")
 
     /** Player init */
-    player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4))
+    player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/player_walk.png", 0, 4))
 
     /** Enemies init */
     Enemy.waveSpawn()
@@ -50,7 +51,7 @@ class Game extends PortableApplication(Game.width, Game.height) {
 
     /** Get mouse position */
     val mouseX = Gdx.input.getX
-    val mouseY = Game.height - Gdx.input.getY
+    val mouseY = Main.height - Gdx.input.getY
 
     /** Update and display player */
     player.draw(g)

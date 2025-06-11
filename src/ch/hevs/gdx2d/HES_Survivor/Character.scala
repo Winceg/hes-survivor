@@ -12,7 +12,7 @@ trait Character {
   protected var lifePoints: Int = maxLifePoints
   protected var sprite: Sprite = _
   protected var characterType: Int = 0
-  private val weapons: ArrayBuffer[Weapon] = ArrayBuffer.empty
+  protected val weapons: ArrayBuffer[Weapon] = ArrayBuffer.empty
   protected var collisionBox: (Int, Int) = _
 
   /** Position and movements */
@@ -97,12 +97,6 @@ trait Character {
       }
       g.drawRectangle(position.x, position.y + 80, 102, 10, 0)
     }
-  }
-
-  /** Leveling */
-  def levelUp(): Unit = {
-    maxLifePoints = maxLifePoints * Game.currentWave / (Game.currentWave - 1)
-    lifePoints = maxLifePoints
   }
 
   /** Graphics */

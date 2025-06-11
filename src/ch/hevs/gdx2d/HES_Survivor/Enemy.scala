@@ -57,6 +57,7 @@ class Enemy(initSprite: Sprite,
 }
 
 object Enemy {
+  /** Creates one of the four different types of enemy */
   private def createEnemy(enemyType: Int): Enemy = {
     val randomPosition: Vector2 = new Vector2(Random.between(Game.margin, Game.width - Game.margin), Random.between(Game.height / 2, Game.height - 100))
     enemyType match {
@@ -67,14 +68,16 @@ object Enemy {
     }
   }
 
+  /** Once a wave has been entirely eliminated, a new one comes in, even stronger than the previous */
   def waveSpawn(): Unit = {
     for (_ <- 0 until Game.currentWave * Game.enemyQty) {
       Game.enemies.append(createEnemy(Random.between(0, 3)))
     }
   }
 
+  /** Ultimate boss pops in */
   def bossSpawn(): Unit = {
-    die()
+    Enemy.reset()
     Game.enemies.append(createEnemy(3))
   }
 
@@ -83,5 +86,10 @@ object Enemy {
     for (e <- Game.enemies.filter(_.getLifePoints <= 0)) {
       Game.enemies.remove(Game.enemies.indexOf(e))
     }
+  }
+
+  /** Removes all enemies from array */
+  def reset(): Unit = {
+    Game.enemies.clear()
   }
 }

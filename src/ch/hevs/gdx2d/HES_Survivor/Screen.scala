@@ -14,7 +14,6 @@ object Screen {
 class Screen extends PortableApplication(width, height) {
 
   private val s = new ScreenManager
-  private var transactionTypeId = 0
 
   override def onInit(): Unit = {
     setTitle("HES Survivor - Will you pass the test ?")
@@ -22,7 +21,7 @@ class Screen extends PortableApplication(width, height) {
     s.registerScreen(classOf[Menu])
     s.registerScreen(classOf[Game])
     s.registerScreen(classOf[Help])
-    s.registerScreen(classOf[GameOver])
+    s.registerScreen(classOf[Options])
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -42,22 +41,27 @@ class Screen extends PortableApplication(width, height) {
   override def onKeyDown(keycode: Int): Unit = {
     super.onKeyDown(keycode)
     // Display the next screen without transition
-    if (keycode == Input.Keys.ENTER) s.transitionTo(1, ScreenManager.TransactionType.SMOOTH)
-    if (Game.player != null) {
-      if (keycode == Input.Keys.SPACE && Game.player.getLifePoints <= 0) s.activateScreen(0)
+    if (keycode == Input.Keys.ENTER && s.getActiveScreen.getClass == classOf[Menu]) {
+      s.transitionTo(1, ScreenManager.TransactionType.SMOOTH)
+      Game.resetGame()
     }
-    if (keycode == Input.Keys.ESCAPE) s.activateScreen(0)
-    if (keycode == Input.Keys.BACKSPACE) s.activateScreen(2)
-    if (keycode == Input.Keys.NUM_1) s.activateScreen(3)
-
-    // Switch to next screen using all available transitions effects
-//    if (keycode == Input.Keys.SPACE) {
-//      s.transitionToNext(ScreenManager.TransactionType.values(transactionTypeId))
-//      // Switch to the next transition effect
-//      transactionTypeId = (transactionTypeId + 1) % ScreenManager.TransactionType.values.length
-//    }
-//    if (keycode == Input.Keys.NUM_1) s.transitionTo(0, ScreenManager.TransactionType.SLICE) // s.activateScreen(0);
-//    if (keycode == Input.Keys.NUM_2) s.transitionTo(1, ScreenManager.TransactionType.SLIDE) // s.activateScreen(1);
-//    if (keycode == Input.Keys.NUM_3) s.transitionTo(2, ScreenManager.TransactionType.SMOOTH) // s.activateScreen(2);
+    if (Game.player != null) {
+      if (keycode == Input.Keys.SPACE && Game.gameOver) s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
+    }
+    if (keycode == Input.Keys.ESCAPE && (s.getActiveScreen.getClass == classOf[Options] || s.getActiveScreen.getClass == classOf[Menu])) s.activateScreen(0)
+    if (keycode == Input.Keys.F1 && s.getActiveScreen.getClass == classOf[Menu]) s.transitionTo(3, ScreenManager.TransactionType.SMOOTH)
+    if (keycode == Input.Keys.F2 && s.getActiveScreen.getClass == classOf[Menu]) s.transitionTo(2, ScreenManager.TransactionType.SMOOTH)
+    if (keycode == Input.Keys.NUMPAD_1 && s.getActiveScreen.getClass == classOf[Options]) {
+      Game.enemyQty = 3
+      s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
+    }
+    if (keycode == Input.Keys.NUMPAD_2 && s.getActiveScreen.getClass == classOf[Options]) {
+      Game.enemyQty = 5
+      s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
+    }
+    if (keycode == Input.Keys.NUMPAD_3 && s.getActiveScreen.getClass == classOf[Options]) {
+      Game.enemyQty = 7
+      s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
+    }
   }
 }

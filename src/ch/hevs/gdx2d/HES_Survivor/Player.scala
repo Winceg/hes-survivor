@@ -18,8 +18,9 @@ class Player(private val name: String = "Player 1",
 
   override def toString: String = name
 
-  override def levelUp(): Unit = {
-    super.levelUp()
+  def levelUp(): Unit = {
+    maxLifePoints = maxLifePoints * Game.currentWave / (Game.currentWave - 1)
+    lifePoints = maxLifePoints
     Game.currentWave match {
       case _ =>
       case 2 =>
@@ -29,5 +30,12 @@ class Player(private val name: String = "Player 1",
         addWeapon(new Weapon(bulletType = 0, damage = 15))
         println("New integral weapon")
     }
+  }
+
+  def reset(): Unit = {
+    maxLifePoints = 100
+    lifePoints = maxLifePoints
+    weapons.clear()
+    addWeapon(new Weapon())
   }
 }

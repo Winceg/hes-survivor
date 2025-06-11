@@ -1,12 +1,13 @@
 package ch.hevs.gdx2d.HES_Survivor
 
-import ch.hevs.gdx2d.HES_Survivor.Game.player
+import ch.hevs.gdx2d.HES_Survivor.Game.{bullets, player}
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
 import ch.hevs.gdx2d.components.screen_management.RenderingScreen
 import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.{Gdx, Input}
+
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -21,7 +22,19 @@ object Game {
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
-  var enemyQty = 1
+  var enemyQty = 3
+  var gameOver: Boolean = false
+
+  def resetGame(): Unit = {
+    Enemy.reset()
+    Bullet.reset()
+    Game.currentWave = 1
+    if(player != null) {
+      player.reset()
+    }
+    gameOver = false
+    Enemy.waveSpawn()
+  }
 }
 
 class Game extends RenderingScreen {
@@ -50,16 +63,12 @@ class Game extends RenderingScreen {
 
     /** Player init */
     player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/player_walk.png", 0, 4))
-
-    /** Enemies init */
-    Enemy.waveSpawn()
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
     /** Clears the screen and get game area size */
     g.clear()
     g.drawBackground(backGround, 0, 0)
-    //g.setBackgroundColor(Color.LIGHT_GRAY)
 
     /** Get mouse position */
     val mouseX = Gdx.input.getX
@@ -89,6 +98,7 @@ class Game extends RenderingScreen {
           Game.SHOOT_TIME = 0.1
         }
         Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0)
+        println(s"Current wave: ${Game.currentWave}")
       }
 
       /** Move enemy */
@@ -105,8 +115,8 @@ class Game extends RenderingScreen {
     g.drawFPS()
     g.drawSchoolLogo()
 
-    // rajouter un if enemies Empti , on recréer des instance , on incrémente la current wave , et on refait un spawn
-    if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vaincu
+    /** When all enemies of a wave have been eliminated, step to the next wave and level up */
+    if (Game.enemies.isEmpty) {
       Game.currentWave += 1
       player.levelUp() // marche mais pas totalement (armes)
       if (Game.currentWave < 6) {
@@ -114,11 +124,13 @@ class Game extends RenderingScreen {
       } else if (Game.currentWave < 7) {
         Enemy.bossSpawn()
       } else {
+        Game.gameOver = true
         gameOver(win = true, g)
       }
 
     }
     if (player.getLifePoints <= 0) { // ici afficher le game over screeen et sortir de la boucle
+      Game.gameOver = true
       gameOver(win = false, g)
     }
 

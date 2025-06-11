@@ -29,6 +29,7 @@ object Game {
     Enemy.reset()
     Bullet.reset()
     Game.currentWave = 1
+    Game.SHOOT_TIME = 1
     if (player != null) {
       player.reset()
     }
@@ -79,6 +80,7 @@ class Game extends RenderingScreen {
     player.moveTo(mouseX, mouseY)
     player.onCollision()
     player.onCollisionWithEnemy()
+    player.displayArmory(g)
 
     /** Update  all bullets position */
     for (b <- Game.bullets) {
@@ -149,10 +151,10 @@ class Game extends RenderingScreen {
     }
   }
 
-  override def onDrag(x: Int, y: Int): Unit = {
-    super.onDrag(x, y)
-    player.shoot()
-  }
+//  override def onDrag(x: Int, y: Int): Unit = {
+//    super.onDrag(x, y)
+//    player.shoot()
+//  }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {

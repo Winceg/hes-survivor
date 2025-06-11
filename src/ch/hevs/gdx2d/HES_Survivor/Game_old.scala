@@ -1,51 +1,51 @@
-package ch.hevs.gdx2d.HES_Survivor
+/*package ch.hevs.gdx2d.HES_Survivor
 
-import ch.hevs.gdx2d.HES_Survivor.Game.player
+
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
-import ch.hevs.gdx2d.components.screen_management.RenderingScreen
-import ch.hevs.gdx2d.lib.GdxGraphics
+import com.badlogic.gdx.{Gdx, Input}
+import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
+import ch.hevs.gdx2d.desktop.PortableApplication
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.{Gdx, Input}
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 object Game {
-  /** Base attributes */
+
   val height: Int = 1080
   val width: Int = 1920
   val margin: Int = width / 8
   val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
-  var player: Player = _
   var SHOOT_TIME: Double = 1 // Duration of each frame
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
-  var enemyQty = 1
-}
+  var enemyQty = 6
+  }
 
-class Game extends RenderingScreen {
+class Game extends PortableApplication (Game.width, Game.height) {
   /** Base attributes */
-  var backGround: BitmapImage = _
-  var gameOverScreen: BitmapImage = _
-  var gameWin: BitmapImage = _
+  private var player: Player = _
+  var menuScreen : BitmapImage = _
+  var backGround : BitmapImage = _
+  var gameOver : BitmapImage = _
+  var gameWin : BitmapImage = _
 
-  /** Game Over screen */
+  // NOTN USED
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
-    g.clear()
-    g.drawBackground(gameOverScreen, 0, 0)
-    g.drawFilledRectangle(Screen.width / 2 + 10, Screen.height / 2 - 10, Screen.width / 3, Screen.height / 3, 0, Color.DARK_GRAY)
-    g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3, Screen.height / 3, 0, Color.BLACK)
-    g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3 - 10, Screen.height / 3 - 10, 0, Color.LIGHT_GRAY)
-
-    g.drawStringCentered(Screen.height * 3 / 5, s"Game over!", Font.pusab60)
-    g.drawStringCentered(Screen.height * 3 / 6, s"${if (win) " Congratulations!" else ""}\n You${if (win) " got your Bachelor!" else "'ll do better next time!"}", Font.pusab30)
-    g.drawStringCentered(Screen.height * 3 / 7, "Press SPACE to go back to main menu", Font.pusab30)
+    val winString: String = if (win) "won" else "lost"
+    g.clear(Color.BLACK)
+    g.drawStringCentered(getWindowHeight * 1.5f, s"You $winString !")
+    g.drawFPS()
+    g.drawSchoolLogo()
   }
 
   override def onInit(): Unit = {
+    setTitle("HES Survivor - Will you pass the test ?")
+
+    menuScreen = new BitmapImage("data/images/Screens/School.jpg")
     backGround = new BitmapImage("data/images/Screens/backGround.png")
-    gameOverScreen = new BitmapImage("data/images/Screens/start_menu.png")
+    gameOver = new BitmapImage("data/images/Screens/gameOver.png")
     gameWin = new BitmapImage("data/images/Screens/winScreen.png")
 
     /** Player init */
@@ -83,10 +83,10 @@ class Game extends RenderingScreen {
     for (e <- Game.enemies) {
       if (Game.dt > Game.SHOOT_TIME) {
         Game.dt = 0
-        if (Game.SHOOT_TIME > 0.1) {
+        if (Game.SHOOT_TIME > 0.3) {
           Game.SHOOT_TIME *= 0.95
         } else {
-          Game.SHOOT_TIME = 0.1
+          Game.SHOOT_TIME = 0.3
         }
         Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0)
       }
@@ -101,7 +101,7 @@ class Game extends RenderingScreen {
     Enemy.die()
     // check if ennemi are dead and remove them
     Bullet.impact()
-    g.drawString(50, 90, s"Semester: ${Game.currentWave}", Font.pusab30)
+    g.drawString(50, 80, s"Semester: ${Game.currentWave}")
     g.drawFPS()
     g.drawSchoolLogo()
 
@@ -109,34 +109,30 @@ class Game extends RenderingScreen {
     if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vaincu
       Game.currentWave += 1
       player.levelUp() // marche mais pas totalement (armes)
-      if (Game.currentWave < 6) {
-        Enemy.waveSpawn()
-      } else if (Game.currentWave < 7) {
-        Enemy.bossSpawn()
-      } else {
-        gameOver(win = true, g)
-      }
+      Enemy.waveSpawn()
 
     }
     if (player.getLifePoints <= 0) { // ici afficher le game over screeen et sortir de la boucle
+      Enemy.die()
       gameOver(win = false, g)
     }
 
   }
 
-  override def onKeyDown(keycode: Int): Unit = {
-    super.onKeyDown(keycode)
+    override def onKeyDown(keycode: Int): Unit = {
+      super.onKeyDown(keycode)
 
-    keycode match { // try catch pour eviter crash
-      case Keys.SPACE =>
-        player.shoot(2)
+      keycode match { // try catch pour eviter crash
+        case Keys.SPACE =>
+          player.shoot(2)
+      }
+
     }
-  }
 
-  override def onDrag(x: Int, y: Int): Unit = {
-    super.onDrag(x, y)
-    player.shoot()
-  }
+    override def onDrag(x: Int, y: Int): Unit = {
+      super.onDrag(x, y)
+      player.shoot(0)
+    }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
@@ -146,5 +142,5 @@ class Game extends RenderingScreen {
       player.shoot(1)
     }
   }
-}
+}*/
 

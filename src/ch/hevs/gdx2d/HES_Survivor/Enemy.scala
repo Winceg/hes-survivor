@@ -2,14 +2,14 @@ package ch.hevs.gdx2d.HES_Survivor
 
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.math.Vector2
-import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 class Enemy(initSprite: Sprite,
             startPosition: Vector2 = new Vector2(),
             initLifePoints: Int = 50,
             initWeapon: Weapon,
-            initDamage: Int = 10
+            initDamage: Int = 10,
+            private val pattern: Int = Random.nextInt(4)
            ) extends DrawableObject with Character {
 
   /** Attributes */
@@ -19,7 +19,6 @@ class Enemy(initSprite: Sprite,
   lifePoints = maxLifePoints
   characterType = -1
   collisionBox = (15, 30)
-  private val pattern: Int = Random.nextInt(4)
   private var hDirection: Int = Random.between(-1, 1)
   if (hDirection == 0) hDirection = 1
   private var vDirection: Int = 1
@@ -64,7 +63,7 @@ object Enemy {
       case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
       case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))
       case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1))
-      case 3 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3))
+      case 3 => new Enemy(initLifePoints = Game.player.maxLifePoints, pattern = 3, initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3, damage = 30))
     }
   }
 
@@ -74,8 +73,9 @@ object Enemy {
     }
   }
 
-  def spawn(e: ArrayBuffer[Enemy]): Unit = {
-
+  def bossSpawn(): Unit = {
+    die()
+    Game.enemies.append(createEnemy(3))
   }
 
   /** Removes killed enemiew from array */

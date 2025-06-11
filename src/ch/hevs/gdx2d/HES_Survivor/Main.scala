@@ -6,7 +6,8 @@ import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import com.badlogic.gdx.Input
 
 object Main extends App {
-  new Game
+  new Screen
+  //new Game
 }
 /* NE MARCHE PAS
   class Main extends PortableApplication(Main.width, Main.height) {

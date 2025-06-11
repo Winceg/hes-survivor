@@ -8,13 +8,12 @@ import scala.collection.mutable.ArrayBuffer
 trait Character {
   /** Attributes */
   protected var position: Vector2 = new Vector2(100, 100)
-  protected var maxLifePoints: Int = 100
+  var maxLifePoints: Int = 100
   protected var lifePoints: Int = maxLifePoints
   protected var sprite: Sprite = _
   protected var characterType: Int = 0
   private val weapons: ArrayBuffer[Weapon] = ArrayBuffer.empty
   protected var collisionBox: (Int, Int) = _
-  //  private var level: Int = 1
 
   /** Position and movements */
   def getPosition: Vector2 = position
@@ -54,7 +53,7 @@ trait Character {
         && b.getPosition.y > this.getCollisionY._1
         && b.getPosition.y < this.getCollisionY._2) {
         this.takeAShot(b.getDamage)
-        b.impacted() // marqué comme a détruire
+        b.impacted() // marqué comme à détruire
       }
     }
   }

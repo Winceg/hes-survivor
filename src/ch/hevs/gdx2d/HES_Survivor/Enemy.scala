@@ -61,10 +61,10 @@ object Enemy {
   private def createEnemy(enemyType: Int): Enemy = {
     val randomPosition: Vector2 = new Vector2(Random.between(Game.margin, Game.width - Game.margin), Random.between(Game.height / 2, Game.height - 100))
     enemyType match {
-      case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
-      case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))
-      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1))
-      case 3 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3))
+      case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
+      case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))
+      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1))
+      case 3 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3))
     }
   }
 

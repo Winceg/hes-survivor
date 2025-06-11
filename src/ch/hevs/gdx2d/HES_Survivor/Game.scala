@@ -16,13 +16,13 @@ object Game {
   var SHOOT_TIME: Double = 1 // Duration of each frame
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
+  var currentWave: Int = 1
+  var enemyQty = 3
 }
 
 class Game extends PortableApplication(Game.width, Game.height) {
   /** Base attributes */
   private var player: Player = _
-  private var enemyQty = 6
-  private var currentWave: Int = 1
 
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
     val winString: String = if (win) "won" else "lost"
@@ -39,7 +39,7 @@ class Game extends PortableApplication(Game.width, Game.height) {
     player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/player_walk.png", 0, 4))
 
     /** Enemies init */
-    Enemy.waveSpawn(currentWave,enemyQty)
+    Enemy.waveSpawn()
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -88,16 +88,19 @@ class Game extends PortableApplication(Game.width, Game.height) {
     Bullet.impact()
 
     // rajouter un if enemies Empti , on recréer des instance , on incrémente la current wave , et on refait un spawn
-    if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vancu
-      println("You won !")
-      gameOver(win = true, g)
+    if (Game.enemies.isEmpty) { // ici modifier , quand le boss est vaincu
+      Game.currentWave += 1
+      player.levelUp()
+      Enemy.waveSpawn()
+//      println("You won !")
+//      gameOver(win = true, g)
     }
     if (player.getLifePoints <= 0) {
       println("You lost !")
       Enemy.die()
       gameOver(win = false, g)
     }
-
+    g.drawString(50, 80, s"Wave: ${Game.currentWave}")
     g.drawFPS()
     g.drawSchoolLogo()
   }

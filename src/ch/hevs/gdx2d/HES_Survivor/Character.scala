@@ -8,7 +8,8 @@ import scala.collection.mutable.ArrayBuffer
 trait Character {
   /** Attributes */
   protected var position: Vector2 = new Vector2(100, 100)
-  protected var lifePoints: Int = 100
+  protected var maxLifePoints: Int = 100
+  protected var lifePoints: Int = maxLifePoints
   protected var sprite: Sprite = _
   protected var characterType: Int = 0
   private val weapons: ArrayBuffer[Weapon] = ArrayBuffer.empty
@@ -16,7 +17,7 @@ trait Character {
   //  private var level: Int = 1
 
   /** Position and movements */
-  private def getPosition: Vector2 = position
+  def getPosition: Vector2 = position
 
   def moveTo(x: Float, y: Float): Unit = {
     position.x = x
@@ -72,26 +73,36 @@ trait Character {
     lifePoints -= damage
   }
 
+  /** HUD */
   def getLifePoints: Int = lifePoints
 
-  //private def displayLifePoints: String = s"Life : $lifePoints"
+  private def displayLifePoints: String = s"Life : $lifePoints"
 
   private def displayLifeBar(g: GdxGraphics): Unit = {
-    def lifeBarColor(): Color = if (lifePoints > 25) Color.LIME else if (lifePoints > 5) Color.YELLOW else Color.RED
+    val lifePercent: Int = ((lifePoints.toFloat / maxLifePoints.toFloat) * 100f).toInt
+
+    def lifeBarColor(): Color = if (lifePercent > 33) Color.LIME else if (lifePercent > 10) Color.YELLOW else Color.RED
 
     if (characterType == 1) {
       g.setColor(Color.BLACK)
-      for (x <- 0 to 2 * lifePoints) {
+      for (x <- 0 to 2 * lifePercent) {
         g.drawFilledRectangle(x + 50, 50, 1, 20, 0, lifeBarColor())
       }
       g.drawRectangle(150, 50, 202, 20, 0)
     } else {
       g.setColor(Color.BLACK)
-      for (x <- 0 to 2 * lifePoints) {
+      for (x <- 0 to lifePercent) {
         g.drawFilledRectangle(position.x + x - 50, position.y + 80, 1, 10, 0, lifeBarColor())
       }
       g.drawRectangle(position.x, position.y + 80, 102, 10, 0)
     }
+  }
+
+  /** Leveling */
+  def levelUp(): Unit = {
+    println(s"Current wave: ${Game.currentWave} - Max lpr: ${maxLifePoints}")
+    maxLifePoints = (maxLifePoints * Game.currentWave / (Game.currentWave - 1))
+    lifePoints = maxLifePoints
   }
 
   /** Graphics */
@@ -99,7 +110,7 @@ trait Character {
     displayLifeBar(g)
     g.setColor(Color.BLACK)
     //g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
-    //g.drawString(position.x, position.y + 100, displayLifePoints)
+    g.drawString(position.x, position.y + 100, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
 }

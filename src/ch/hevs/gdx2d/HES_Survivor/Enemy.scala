@@ -10,17 +10,18 @@ class Enemy(initSprite: Sprite,
             initLifePoints: Int = 50,
             pattern: Int = 1,
             initWeapon: Weapon,
-            initDamage: Int
+            initDamage: Int = 10
            ) extends DrawableObject with Character {
 
   /** Attributes */
   sprite = initSprite
   position = startPosition
-  lifePoints = initLifePoints
+  maxLifePoints = initLifePoints * Game.currentWave
+  lifePoints = maxLifePoints
   characterType = -1
   collisionBox = (15, 30)
   var direction: Int = 1
-  var damage: Int = damage
+  var damage: Int = initDamage * Game.currentWave
   addWeapon(initWeapon)
 
   def getDamage: Int = damage
@@ -46,15 +47,15 @@ object Enemy {
   private def createEnemy(enemyType: Int): Enemy = {
     val randomPosition: Vector2 = new Vector2(Random.between(Game.margin, Game.width - Game.margin), Random.between(Game.height / 2, Game.height - 100))
     enemyType match {
-      case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0), initDamage = 10)
-      case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2), initDamage = 12)
-      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1), initDamage = 15)
-      case 3 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3), initDamage = 11)
+      case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
+      case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))
+      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1))
+      case 3 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 3))
     }
   }
 
-  def waveSpawn(wave: Int, enemyQty: Int): Unit = {
-    for (_ <- 0 until enemyQty) {
+  def waveSpawn(): Unit = {
+    for (_ <- 0 until Game.currentWave * Game.enemyQty) {
       Game.enemies.append(createEnemy(Random.between(0, 3)))
     }
   }

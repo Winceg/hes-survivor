@@ -1,6 +1,7 @@
 package ch.hevs.gdx2d.HES_Survivor
 
-import ch.hevs.gdx2d.HES_Survivor.Game.screen
+import ch.hevs.gdx2d.HES_Survivor.Game.{menu, screen}
+import ch.hevs.gdx2d.components.bitmaps.BitmapImage
 import com.badlogic.gdx.{Gdx, Input}
 import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import ch.hevs.gdx2d.desktop.PortableApplication
@@ -19,7 +20,12 @@ object Game {
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
   var enemyQty = 6
-  var screen: ScreenManager = new ScreenManager()
+  val menu : BitmapImage = new BitmapImage("data/images/Screens/School.jpg")
+  val backGround : BitmapImage = new BitmapImage("data/images/Screens/backGround.png")
+  val gameOver : BitmapImage = new BitmapImage("data/images/Screens/gameOver.png")
+  val gameWin : BitmapImage = new BitmapImage("data/images/Screens/winScreen.png")
+
+
 }
 
 class Game extends PortableApplication(Main.width, Main.height) {
@@ -47,6 +53,7 @@ class Game extends PortableApplication(Main.width, Main.height) {
   override def onGraphicRender(g: GdxGraphics): Unit = {
     /** Clears the screen and get game area size */
     g.clear()
+    g.drawBackground(menu,w)
     g.setBackgroundColor(Color.LIGHT_GRAY)
 
     /** Get mouse position */
@@ -66,6 +73,7 @@ class Game extends PortableApplication(Main.width, Main.height) {
     }
 
     /** Update and display enemy */
+    // MODIFY MODIFY MODIFY //
     Game.dt += Gdx.graphics.getDeltaTime
     for (e <- Game.enemies) {
       if (Game.dt > Game.SHOOT_TIME) {
@@ -94,11 +102,9 @@ class Game extends PortableApplication(Main.width, Main.height) {
       Game.currentWave += 1
       player.levelUp()
       Enemy.waveSpawn()
-//      println("You won !")
-//      gameOver(win = true, g)
+//
     }
     if (player.getLifePoints <= 0) {
-      println("You lost !")
       Enemy.die()
       gameOver(win = false, g)
     }

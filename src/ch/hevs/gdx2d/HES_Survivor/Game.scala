@@ -3,6 +3,7 @@ package ch.hevs.gdx2d.HES_Survivor
 import com.badlogic.gdx.{Gdx, Input}
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.desktop.PortableApplication
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 
 import scala.collection.mutable.ArrayBuffer
@@ -17,7 +18,7 @@ object Game {
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
-  var enemyQty = 5
+  var enemyQty = 6
 }
 
 class Game extends PortableApplication(Game.width, Game.height) {
@@ -105,17 +106,15 @@ class Game extends PortableApplication(Game.width, Game.height) {
     g.drawSchoolLogo()
   }
 
-  //  override def onKeyDown(keycode: Int): Unit = {
-  //    super.onKeyDown(keycode)
-  //
-  //    keycode match {
-  //      case Keys.LEFT =>
-  //        player.moveDelta(-10, 0)
-  //      case Keys.RIGHT =>
-  //        player.moveDelta(10, 0)
-  //    }
-  //
-  //  }
+    override def onKeyDown(keycode: Int): Unit = {
+      super.onKeyDown(keycode)
+
+      keycode match {
+        case Keys.SPACE =>
+          player.shoot(2)
+      }
+
+    }
 
     override def onDrag(x: Int, y: Int): Unit = {
       super.onDrag(x, y)

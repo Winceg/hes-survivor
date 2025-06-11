@@ -100,8 +100,7 @@ trait Character {
 
   /** Leveling */
   def levelUp(): Unit = {
-    println(s"Current wave: ${Game.currentWave} - Max lpr: ${maxLifePoints}")
-    maxLifePoints = (maxLifePoints * Game.currentWave / (Game.currentWave - 1))
+    maxLifePoints = maxLifePoints * Game.currentWave / (Game.currentWave - 1)
     lifePoints = maxLifePoints
   }
 

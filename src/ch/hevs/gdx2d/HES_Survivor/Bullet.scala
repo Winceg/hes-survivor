@@ -5,8 +5,6 @@ import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 
-import scala.collection.mutable.ArrayBuffer
-
 case class Bullet(initDamage: Int = 10,
                   startPos: Vector2 = new Vector2(0, 0),
                   private val trajectory: Int = 0,
@@ -16,7 +14,7 @@ case class Bullet(initDamage: Int = 10,
                  ) extends DrawableObject {
 
   /** Attributes */
-  private var damage: Int = initDamage * Game.currentWave
+  private val damage: Int = initDamage * Game.currentWave
   private val position: Vector2 = new Vector2()
   position.x = startPos.x
   position.y = startPos.y

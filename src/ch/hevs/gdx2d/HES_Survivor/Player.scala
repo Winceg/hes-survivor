@@ -17,4 +17,17 @@ class Player(private val name: String = "Player 1",
   addWeapon(new Weapon(bulletType = 1))
 
   override def toString: String = name
+
+  override def levelUp(): Unit = {
+    super.levelUp()
+    Game.currentWave match {
+      case _ =>
+      case 2 =>
+        addWeapon(new Weapon(bulletType = 3))
+        println("New limit weapon")
+      case 3 =>
+        addWeapon(new Weapon(bulletType = 0, damage = 15))
+        println("New integral weapon")
+    }
+  }
 }

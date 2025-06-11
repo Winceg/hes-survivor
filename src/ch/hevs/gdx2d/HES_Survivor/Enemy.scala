@@ -19,10 +19,11 @@ class Enemy(initSprite: Sprite,
   lifePoints = maxLifePoints
   characterType = -1
   collisionBox = (15, 30)
-  val pattern: Int = Random.nextInt(3)
-  var hDirection: Int = 1
-  var vDirection: Int = 1
-  var damage: Int = initDamage * Game.currentWave
+  private val pattern: Int = Random.nextInt(4)
+  private var hDirection: Int = Random.between(-1, 1)
+  if (hDirection == 0) hDirection = 1
+  private var vDirection: Int = 1
+  private val damage: Int = initDamage * Game.currentWave
   addWeapon(initWeapon)
 
   def getDamage: Int = damage
@@ -34,6 +35,7 @@ class Enemy(initSprite: Sprite,
     } else if (position.x <= Game.margin) {
       this.hDirection = 1
     }
+
     /** Up and down movement */
     if (position.y >= Game.height - Game.margin) {
       this.vDirection = -1
@@ -46,9 +48,11 @@ class Enemy(initSprite: Sprite,
       case 0 =>
         moveTo(position.x + hDirection * x, position.y)
       case 1 =>
-        moveTo(position.x + hDirection * -x, position.y)
-      case 2 =>
         moveTo(position.x + hDirection * x, position.y + vDirection * y)
+      case 2 =>
+        moveTo(position.x + hDirection * 2 * x, position.y)
+      case 3 =>
+        moveTo(position.x + hDirection * 2 * x, position.y + vDirection * 2 * y)
     }
   }
 }

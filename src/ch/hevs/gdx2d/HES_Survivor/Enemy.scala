@@ -30,16 +30,16 @@ class Enemy(initSprite: Sprite,
 
   def moveDelta(x: Int, y: Int): Unit = {
     /** Left to right movement */
-    if (position.x >= Main.width - Main.margin) {
+    if (position.x >= Game.width - Game.margin) {
       this.hDirection = -1
-    } else if (position.x <= Main.margin) {
+    } else if (position.x <= Game.margin) {
       this.hDirection = 1
     }
 
     /** Up and down movement */
-    if (position.y >= Main.height - Main.margin) {
+    if (position.y >= Game.height - Game.margin) {
       this.vDirection = -1
-    } else if (position.y <= Main.height / 2) {
+    } else if (position.y <= Game.height / 2) {
       this.vDirection = 1
     }
 
@@ -59,7 +59,7 @@ class Enemy(initSprite: Sprite,
 
 object Enemy {
   private def createEnemy(enemyType: Int): Enemy = {
-    val randomPosition: Vector2 = new Vector2(Random.between(Main.margin, Main.width - Main.margin), Random.between(Main.height / 2, Main.height - 100))
+    val randomPosition: Vector2 = new Vector2(Random.between(Game.margin, Game.width - Game.margin), Random.between(Game.height / 2, Game.height - 100))
     enemyType match {
       case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
       case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))

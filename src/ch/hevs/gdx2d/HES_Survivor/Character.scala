@@ -44,6 +44,8 @@ trait Character {
 
   private def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
 
+
+  // si bullet (type gérer) est dans hitbox >> fx take damage
   def onCollision(): Unit = {
     for (b <- Game.bullets) {
       if (b.playerBullet == -characterType
@@ -52,11 +54,11 @@ trait Character {
         && b.getPosition.y > this.getCollisionY._1
         && b.getPosition.y < this.getCollisionY._2) {
         this.takeAShot(b.getDamage)
-        b.impacted()
+        b.impacted() // marqué comme a détruire
       }
     }
   }
-
+ // collision entre joueur et ennemi directe
   def onCollisionWithEnemy(): Unit = {
     for (e <- Game.enemies) {
       if (characterType == 1
@@ -64,11 +66,11 @@ trait Character {
         && e.getPosition.x < this.getCollisionX._2
         && e.getPosition.y > this.getCollisionY._1
         && e.getPosition.y < this.getCollisionY._2) {
-        this.takeAShot(1) //e.getDamage)
+        this.takeAShot(1) // prends les damages
       }
     }
   }
-
+  // fx pour enlever des lifpoitns
   private def takeAShot(damage: Int): Unit = {
     lifePoints -= damage
   }

@@ -4,34 +4,34 @@ Dialog ideas:
 == PRIMORDIALE ==
 
 ==> JO
-JO - fond et scroll
-- Spawn (inscrease) --- systeme de vagues
+- fond et scroll
 - Menu , début , fin - survivre a des vagues - chaque vague redonne un peu de vie - plus de vie = game over
     Win = vague 10 , mega mudry qui tire pleins de balles
+- musique et sons
+- écran de Game Over avec feuille d'échec etc"/// écran de win bachelor ISC + Mudry bravo
 
 ==> RAPH
+- Spawn (inscrease) --- systeme de vagues [v]
 - diversité des balles (par ennemi) [v]
 - FirerateFix
 - mouvements (chaque ennemi)
 - Hitbox [v]
 - collision hitbox joueur + hitbox enemy [v]
+- faire disparaitre les bullets quand elles touchent les Margins [v]
 
 
 
 
 
 == SECONDAIRE ==
-- faire disparaitre les bullets quand elles touchent les Margins
 - vague de bosse
 - Explosions srpite
 - barre de vie ennemis [v]
-- musique et sons
 - score kills ou durée de vie ---> bulletin de notes
 - (acceuil avec Mudry dialogue)
 - écran menu éclaires
 - Level design progressif
 - Add perso Richardet
-- écran de Game Over avec feuille d'échec etc"/// écran de win bachelor ISC + Mudry bravo
 
 - Bunus , upgrade , affichage balles et dégats
 - manu affichage des controles

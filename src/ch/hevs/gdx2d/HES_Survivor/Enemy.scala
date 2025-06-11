@@ -8,7 +8,6 @@ import scala.util.Random
 class Enemy(initSprite: Sprite,
             startPosition: Vector2 = new Vector2(),
             initLifePoints: Int = 50,
-            pattern: Int = 1,
             initWeapon: Weapon,
             initDamage: Int = 10
            ) extends DrawableObject with Character {
@@ -20,25 +19,36 @@ class Enemy(initSprite: Sprite,
   lifePoints = maxLifePoints
   characterType = -1
   collisionBox = (15, 30)
-  var direction: Int = 1
+  val pattern: Int = Random.nextInt(3)
+  var hDirection: Int = 1
+  var vDirection: Int = 1
   var damage: Int = initDamage * Game.currentWave
   addWeapon(initWeapon)
 
   def getDamage: Int = damage
 
   def moveDelta(x: Int, y: Int): Unit = {
-
     /** Left to right movement */
     if (position.x >= Game.width - Game.margin) {
-      direction = -1
+      this.hDirection = -1
     } else if (position.x <= Game.margin) {
-      direction = 1
+      this.hDirection = 1
+    }
+    /** Up and down movement */
+    if (position.y >= Game.height - Game.margin) {
+      this.vDirection = -1
+    } else if (position.y <= Game.height / 2) {
+      this.vDirection = 1
     }
 
     /** Different pattern are available */
-    pattern match {
-      case _ =>
-        moveTo(position.x + direction * x, position.y + y)
+    this.pattern match {
+      case 0 =>
+        moveTo(position.x + hDirection * x, position.y)
+      case 1 =>
+        moveTo(position.x + hDirection * -x, position.y)
+      case 2 =>
+        moveTo(position.x + hDirection * x, position.y + vDirection * y)
     }
   }
 }

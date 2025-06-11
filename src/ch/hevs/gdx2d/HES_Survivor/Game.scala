@@ -17,7 +17,7 @@ object Game {
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
-  var enemyQty = 3
+  var enemyQty = 5
 }
 
 class Game extends PortableApplication(Game.width, Game.height) {
@@ -77,7 +77,7 @@ class Game extends PortableApplication(Game.width, Game.height) {
       }
 
       /** Move enemy */
-      e.moveDelta(2, 0)
+      e.moveDelta(2, 2)
       e.onCollision()
       e.draw(g)
 
@@ -100,7 +100,7 @@ class Game extends PortableApplication(Game.width, Game.height) {
       Enemy.die()
       gameOver(win = false, g)
     }
-    g.drawString(50, 80, s"Wave: ${Game.currentWave}")
+    g.drawString(50, 80, s"Semester: ${Game.currentWave}")
     g.drawFPS()
     g.drawSchoolLogo()
   }

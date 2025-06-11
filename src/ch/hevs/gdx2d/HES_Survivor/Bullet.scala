@@ -39,6 +39,7 @@ case class Bullet(initDamage: Int = 10,
         position.y += playerBullet * speed
     }
     if (position.y >= Gdx.graphics.getHeight) impacted()
+    if (position.y <= 0) impacted()
   }
 }
 

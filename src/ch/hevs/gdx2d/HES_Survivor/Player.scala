@@ -3,7 +3,6 @@ package ch.hevs.gdx2d.HES_Survivor
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
 import com.badlogic.gdx.math.Vector2
 
-
 class Player(private val name: String = "Player 1",
              startPosition: Vector2 = new Vector2(),
              initSprite: Sprite,
@@ -18,6 +17,7 @@ class Player(private val name: String = "Player 1",
 
   override def toString: String = name
 
+  /** Adds lifepoints and new weapons after completing a level */
   def levelUp(): Unit = {
     maxLifePoints = maxLifePoints * Game.currentWave / (Game.currentWave - 1)
     lifePoints = maxLifePoints

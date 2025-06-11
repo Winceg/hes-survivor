@@ -8,14 +8,16 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 
 object Font {
 
-  var pusabFile: FileHandle = _
+  private var pusabFile: FileHandle = _
   var pusab30: BitmapFont = _
   var pusab60: BitmapFont = _
 
   pusabFile = Gdx.files.internal("data/images/Fonts/8_bit_pusab/8-bit-pusab.ttf")
 
-  val parameter = new FreeTypeFontGenerator.FreeTypeFontParameter
-  val generator = new FreeTypeFontGenerator(pusabFile)
+  private val parameter = new FreeTypeFontGenerator.FreeTypeFontParameter
+  private val generator = new FreeTypeFontGenerator(pusabFile)
+
+  /** Font size 30 */
   parameter.size = generator.scaleForPixelHeight(30)
   parameter.color = Color.WHITE
   parameter.shadowOffsetY = 2
@@ -23,6 +25,7 @@ object Font {
   parameter.shadowColor = Color.DARK_GRAY
   pusab30 = generator.generateFont(parameter)
 
+  /** Font size 60 */
   parameter.size = generator.scaleForPixelHeight(60)
   parameter.color = Color.WHITE
   parameter.borderColor = Color.BLACK

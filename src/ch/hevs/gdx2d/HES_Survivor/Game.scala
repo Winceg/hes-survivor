@@ -1,6 +1,6 @@
 package ch.hevs.gdx2d.HES_Survivor
 
-import ch.hevs.gdx2d.HES_Survivor.Game.{bullets, player}
+import ch.hevs.gdx2d.HES_Survivor.Game.player
 import ch.hevs.gdx2d.components.bitmaps.BitmapImage
 import ch.hevs.gdx2d.components.screen_management.RenderingScreen
 import ch.hevs.gdx2d.lib.GdxGraphics
@@ -18,7 +18,7 @@ object Game {
   val margin: Int = width / 8
   val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var player: Player = _
-  var SHOOT_TIME: Double = 1 // Duration of each frame
+  private var SHOOT_TIME: Double = 1 // Duration of each frame
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
@@ -29,7 +29,7 @@ object Game {
     Enemy.reset()
     Bullet.reset()
     Game.currentWave = 1
-    if(player != null) {
+    if (player != null) {
       player.reset()
     }
     gameOver = false
@@ -39,9 +39,9 @@ object Game {
 
 class Game extends RenderingScreen {
   /** Base attributes */
-  var backGround: BitmapImage = _
-  var gameOverScreen: BitmapImage = _
-  var gameWin: BitmapImage = _
+  private var backGround: BitmapImage = _
+  private var gameOverScreen: BitmapImage = _
+  private var gameWin: BitmapImage = _
 
   /** Game Over screen */
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
@@ -97,7 +97,7 @@ class Game extends RenderingScreen {
         } else {
           Game.SHOOT_TIME = 0.1
         }
-        Game.enemies(Random.nextInt(Game.enemies.length)).shoot(0)
+        Game.enemies(Random.nextInt(Game.enemies.length)).shoot()
         println(s"Current wave: ${Game.currentWave}")
       }
 
@@ -107,10 +107,14 @@ class Game extends RenderingScreen {
       e.draw(g)
 
     }
-    // check if ennemi are dead and remove them
+
+    /** Removing all enemies marked as hit for deletion */
     Enemy.die()
-    // check if ennemi are dead and remove them
+
+    /** Removing all bullets hit for deletion */
     Bullet.impact()
+
+    /** HUD */
     g.drawString(50, 90, s"Semester: ${Game.currentWave}", Font.pusab30)
     g.drawFPS()
     g.drawSchoolLogo()
@@ -118,7 +122,7 @@ class Game extends RenderingScreen {
     /** When all enemies of a wave have been eliminated, step to the next wave and level up */
     if (Game.enemies.isEmpty) {
       Game.currentWave += 1
-      player.levelUp() // marche mais pas totalement (armes)
+      player.levelUp()
       if (Game.currentWave < 6) {
         Enemy.waveSpawn()
       } else if (Game.currentWave < 7) {

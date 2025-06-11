@@ -16,7 +16,7 @@ trait Character {
   protected var collisionBox: (Int, Int) = _
 
   /** Position and movements */
-  def getPosition: Vector2 = position
+  protected def getPosition: Vector2 = position
 
   def moveTo(x: Float, y: Float): Unit = {
     position.x = x
@@ -44,7 +44,7 @@ trait Character {
   private def getCollisionY: (Float, Float) = (position.y - collisionBox._2, position.y + collisionBox._2)
 
 
-  // si bullet (type gérer) est dans hitbox >> fx take damage
+  /** If a bullet gets inside the collision box of the player, the player takes damage and the bullet is destroyed */
   def onCollision(): Unit = {
     for (b <- Game.bullets) {
       if (b.playerBullet == -characterType
@@ -53,11 +53,14 @@ trait Character {
         && b.getPosition.y > this.getCollisionY._1
         && b.getPosition.y < this.getCollisionY._2) {
         this.takeAShot(b.getDamage)
-        b.impacted() // marqué comme à détruire
+
+        /** Bullet is marked for deletion in the array at the end of the onRender function */
+        b.impacted()
       }
     }
   }
- // collision entre joueur et ennemi directe
+
+  /** If an enemy gets inside the collision box of the player, the player takes damage */
   def onCollisionWithEnemy(): Unit = {
     for (e <- Game.enemies) {
       if (characterType == 1
@@ -65,11 +68,12 @@ trait Character {
         && e.getPosition.x < this.getCollisionX._2
         && e.getPosition.y > this.getCollisionY._1
         && e.getPosition.y < this.getCollisionY._2) {
-        this.takeAShot(1) // prends les damages
+        this.takeAShot(1)
       }
     }
   }
-  // fx pour enlever des lifpoitns
+
+  /** Removes lifepoints after a collision */
   private def takeAShot(damage: Int): Unit = {
     lifePoints -= damage
   }

@@ -49,10 +49,8 @@ object Bullet {
     }
   }
 
+  /** Empties the bullet array */
   def reset(): Unit = {
     Game.bullets.clear()
-//    for (b <- Game.bullets) {
-//      Game.bullets.remove(Game.bullets.indexOf(b))
-//    }
   }
 }

@@ -6,14 +6,13 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.graphics.Color
 
 class Options extends RenderingScreen {
-  var gameOverScreen : BitmapImage = _
+  var gameOverScreen: BitmapImage = _
 
   override def onInit(): Unit = {
     gameOverScreen = new BitmapImage("data/images/Screens/start_menu.png")
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
-    var win = true
     g.clear()
     g.drawBackground(gameOverScreen, 0, 0)
     g.drawFilledRectangle(Screen.width / 2 + 10, Screen.height / 2 - 10, Screen.width / 3, Screen.height / 3, 0, Color.DARK_GRAY)

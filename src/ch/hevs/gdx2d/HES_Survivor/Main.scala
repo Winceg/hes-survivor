@@ -6,9 +6,6 @@ import ch.hevs.gdx2d.lib.{GdxGraphics, ScreenManager}
 import com.badlogic.gdx.Input
 
 object Main extends App {
-  val height: Int = 1080
-  val width: Int = 1920
-  val margin: Int = width / 8
 
   new Game
   new Menu

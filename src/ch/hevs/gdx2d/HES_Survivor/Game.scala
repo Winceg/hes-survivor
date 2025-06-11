@@ -13,7 +13,9 @@ import scala.util.Random
 
 object Game {
 
-
+  val height: Int = 1080
+  val width: Int = 1920
+  val margin: Int = width / 8
   val enemies: ArrayBuffer[Enemy] = new ArrayBuffer[Enemy]
   var SHOOT_TIME: Double = 1 // Duration of each frame
   var dt: Float = 0
@@ -28,7 +30,7 @@ object Game {
 
 }
 
-class Game extends PortableApplication(Main.width, Main.height) {
+class Game extends PortableApplication(Game.width, Game.height) {
   /** Base attributes */
   private var player: Player = _
   // modify to screenmanager

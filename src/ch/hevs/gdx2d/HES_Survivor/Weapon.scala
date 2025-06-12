@@ -18,6 +18,7 @@ class Weapon(val weaponName: String = "",
       case 1 => new Bullet(initDamage = damage, startPos = position, playerBullet = playerBullet, speed = 18, sprite = new Sprite(64, 64, "data/images/spriteSheet/bullets/sum_64_8.png", 0, 8))
       case 2 => new Bullet(initDamage = damage, startPos = position, playerBullet = playerBullet, speed = 22, sprite = new Sprite(64, 64, "data/images/spriteSheet/bullets/ScalaBullet_64_10.png", 0, 8))
       case 3 => new Bullet(initDamage = damage, startPos = position, playerBullet = playerBullet, speed = 14, sprite = new Sprite(64, 64, "data/images/spriteSheet/bullets/limit_64_8.png", 0, 8))
+      case 4 => new Bullet(initDamage = damage, startPos = position, playerBullet = playerBullet, speed = 14, sprite = new Sprite(64, 64, "data/images/spriteSheet/bullets/PythonBullet_64_10.png", 0, 8))
     }
   }
 }

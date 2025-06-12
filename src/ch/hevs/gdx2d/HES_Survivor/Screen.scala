@@ -63,15 +63,15 @@ class Screen extends PortableApplication(width, height) {
     if (keycode == Input.Keys.F2 && s.getActiveScreen.getClass == classOf[Menu]) s.transitionTo(2, ScreenManager.TransactionType.SMOOTH)
 
     /** From the options menu, 1, 2 and 3 select the difficulty level */
-    if (keycode == Input.Keys.NUMPAD_1 && s.getActiveScreen.getClass == classOf[Options]) {
+    if ((keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1) && s.getActiveScreen.getClass == classOf[Options]) {
       Game.enemyQty = 3
       s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
     }
-    if (keycode == Input.Keys.NUMPAD_2 && s.getActiveScreen.getClass == classOf[Options]) {
+    if ((keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && s.getActiveScreen.getClass == classOf[Options]) {
       Game.enemyQty = 5
       s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
     }
-    if (keycode == Input.Keys.NUMPAD_3 && s.getActiveScreen.getClass == classOf[Options]) {
+    if ((keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && s.getActiveScreen.getClass == classOf[Options]) {
       Game.enemyQty = 7
       s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
     }

@@ -63,7 +63,7 @@ object Enemy {
     enemyType match {
       case 0 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/jaquemet_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 0))
       case 1 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/Mudry_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2))
-      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 1))
+      case 2 => new Enemy(initSprite = new Sprite(128, 128, "data/images/spriteSheet/entity/General_walk_128_4.png", 0, 4), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 4))
       case 3 => new Enemy(initLifePoints = Game.player.maxLifePoints, pattern = 3, initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/Mudry_Wink_20.png", 0, 20), startPosition = randomPosition, initWeapon = new Weapon(bulletType = 2, damage = 30))
     }
   }

@@ -19,7 +19,7 @@ To move your character, just move your mouse inside the window
 ![In game_sem1_easy.png](Screenshots/In%20game_sem1_easy.png)
 
 It can get tricky to move without getting hit once you're facing many opponents !
-![In game_sem2_hard.png](Screenshots/In%20game_sem2_hard.png)
+![In game_sem2_hard.png](Screenshots/In%20game_sem1_hard.png)
 
 Watch the demo below !
 [![Demo.gif](Screenshots/Demo.gif)](Screenshots/Demo.gif)

@@ -52,9 +52,9 @@ class Game extends RenderingScreen {
     g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3, Screen.height / 3, 0, Color.BLACK)
     g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3 - 10, Screen.height / 3 - 10, 0, Color.LIGHT_GRAY)
 
-    g.drawStringCentered(Screen.height * 3 / 5, s"Game over!", Font.pusab60)
-    g.drawStringCentered(Screen.height * 3 / 6, s"${if (win) " Congratulations!" else ""}\n You${if (win) " got your Bachelor!" else "'ll do better next time!"}", Font.pusab30)
-    g.drawStringCentered(Screen.height * 3 / 7, "Press SPACE to go back to main menu", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 5, s"${if (win) "Congratulations!" else "Game over!"}", Font.pusab60)
+    g.drawStringCentered(Screen.height * 3 / 6, s"You${if (win) " got your Bachelor!" else "'ll do better next time!"}", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 7, "Press F3 to go back to main menu", Font.pusab30)
   }
 
   override def onInit(): Unit = {

@@ -24,13 +24,20 @@ Dialog ideas:
 - Win = vague 10 , mega mudry qui tire pleins de balles [v]
 - barre de vie ennemis [v]
 - manu affichage des controles [v]
+- +++ 3 ème arme (espace) [v]
 Reste:
-- 3 ème arme (espace)
-- HUD
-- écran de Game Over avec feuille d'échec etc"/// écran de win bachelor ISC + Mudry bravo
+- +++ valider sélections dans les menus
+- +++ ajouter musique
+- +++ onDrag comme arme supplémentaire à la fin
+- ++ sons
+- ++ notifications de nouvelle arme
+- + HUD Design
+- + accueuil et fin avec outlook et Mudry
+- + écran de Game Over avec feuille d'échec etc"/// écran de win bachelor ISC + Mudry bravo
 - (acceuil avec Mudry dialogue) - écran menu éclaires
 
-
+==> BUGS
+- lifepoints reset au max après écran de pause
 
 
 
@@ -38,5 +45,5 @@ Reste:
 - Level design progressif
 - vague de bosse
 - score kills ou durée de vie ---> bulletin de notes
-- Bunus , upgrade , affichage balles et dégats
+- + Bunus , upgrade , affichage balles et dégats
 - menu mini tutoriel

@@ -20,10 +20,15 @@ class Options extends RenderingScreen {
     g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3 - 10, Screen.height / 3 - 10, 0, Color.LIGHT_GRAY)
 
     g.drawStringCentered(Screen.height * 3 / 5, "Game options", Font.pusab60)
-    g.drawStringCentered(Screen.height * 3 / 6,
-      "Choose difficulty:" +
-        "\nEasy: press NUMPAD1" +
-        "\nMedium: press NUMPAD2" +
-        "\nHard: press NUMPAD3", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 6, "Choose difficulty:", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 6 - 25, "Easy: press NUMPAD1", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 6 - 50, "Medium: press NUMPAD2", Font.pusab30)
+    g.drawStringCentered(Screen.height * 3 / 6 - 75, "Hard: press NUMPAD3", Font.pusab30)
   }
 }
+//
+//g.drawStringCentered(Screen.height * 3 / 6,
+//  "Choose difficulty:" +
+//    "Easy: press NUMPAD1" +
+//    "Medium: press NUMPAD2" +
+//    "Hard: press NUMPAD3", Font.pusab30)

@@ -42,10 +42,18 @@ class Screen extends PortableApplication(width, height) {
       Game.resetGame()
     }
 
-    /** SPACE goes back to menu after the end of the game or from the controls screen */
+    /** Resume game */
     if (Game.player != null) {
-      if (keycode == Input.Keys.SPACE && (Game.gameOver || s.getActiveScreen.getClass == classOf[Help])) s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
+      if (keycode == Input.Keys.BACKSPACE && s.getActiveScreen.getClass == classOf[Menu]) {
+        s.transitionTo(1, ScreenManager.TransactionType.SMOOTH)
+      }
     }
+
+    /** Delegate to the subscreen */
+    if (keycode == Input.Keys.SPACE && s.getActiveScreen.getClass == classOf[Game]) s.getActiveScreen.onKeyDown(keycode)
+
+    /** F3 goes back to menu (pause) */
+    if (keycode == Input.Keys.F3) s.transitionTo(0, ScreenManager.TransactionType.SMOOTH)
 
     /** ESC quits the game */
     if (keycode == Input.Keys.ESCAPE && (s.getActiveScreen.getClass == classOf[Options] || s.getActiveScreen.getClass == classOf[Menu])) s.activateScreen(0)

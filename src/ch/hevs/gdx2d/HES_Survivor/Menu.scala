@@ -20,10 +20,19 @@ class Menu extends RenderingScreen {
     g.drawFilledRectangle(Screen.width / 2, Screen.height / 2, Screen.width / 3 - 10, Screen.height / 3 - 10, 0, Color.LIGHT_GRAY)
 
     g.drawStringCentered(Screen.height * 3 / 5, "Game menu", Font.pusab60)
-    g.drawStringCentered(Screen.height * 3 / 6,
-      "Press ENTER to start a game" +
+    var menuText: String = ""
+    if (Game.player != null) {
+      menuText = "Press ENTER to start a game" +
         "\nPress F1 for game options" +
         "\nPress F2 for instructions" +
-        "\nPress ESC to quit", Font.pusab30)
+        "\nPress ESC to quit" +
+        "\nPress BACKSPACE to resume"
+    } else {
+      menuText = "Press ENTER to start a game" +
+        "\nPress F1 for game options" +
+        "\nPress F2 for instructions" +
+        "\nPress ESC to quit"
+    }
+    g.drawStringCentered(Screen.height * 3 / 6, menuText, Font.pusab30)
   }
 }

@@ -97,9 +97,9 @@ trait Character {
     } else {
       g.setColor(Color.BLACK)
       for (x <- 0 to lifePercent) {
-        g.drawFilledRectangle(position.x + x - 50, position.y + 80, 1, 10, 0, lifeBarColor())
+        g.drawFilledRectangle(position.x + x - 50, position.y + sprite.spriteDimentionX * 2 / 3, 1, 10, 0, lifeBarColor())
       }
-      g.drawRectangle(position.x, position.y + 80, 102, 10, 0)
+      g.drawRectangle(position.x, position.y + sprite.spriteDimentionX * 2 / 3, 102, 10, 0)
     }
   }
 
@@ -108,7 +108,7 @@ trait Character {
     displayLifeBar(g)
     g.setColor(Color.BLACK)
     //g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
-    g.drawString(position.x, position.y + 100, displayLifePoints)
+    g.drawString(position.x - 25, position.y + sprite.spriteDimentionX * 2 / 3 + 20, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
 }

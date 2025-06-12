@@ -20,6 +20,6 @@ class Help extends RenderingScreen {
       g.drawFilledRectangle(Screen.width/2, Screen.height/2, Screen.width/3 - 10, Screen.height/3 - 10, 0, Color.LIGHT_GRAY)
 
       g.drawStringCentered(Screen.height * 3 / 5, "Game controls", Font.pusab60)
-      g.drawStringCentered(Screen.height * 3 / 6, "LEFT CLICK : fire main weapon\nRIGHT CLICK : fire secondary weapon\nSPACE : fire bonus weapon\n\nPress SPACE to go back to main menu", Font.pusab30)
+      g.drawStringCentered(Screen.height * 3 / 6, "LEFT CLICK : fire main weapon\nRIGHT CLICK : fire secondary weapon\nSPACE : fire bonus weapon\n\nF3 : go back to main menu", Font.pusab30)
     }
   }

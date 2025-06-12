@@ -7,7 +7,6 @@ import ch.hevs.gdx2d.lib.GdxGraphics
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.{Gdx, Input}
-
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
@@ -42,7 +41,6 @@ class Game extends RenderingScreen {
   /** Base attributes */
   private var backGround: BitmapImage = _
   private var gameOverScreen: BitmapImage = _
-  //  private var gameWin: BitmapImage = _
 
   /** Player init */
   if (Screen.newGame) {
@@ -66,9 +64,6 @@ class Game extends RenderingScreen {
   override def onInit(): Unit = {
     backGround = new BitmapImage("data/images/Screens/backGround.png")
     gameOverScreen = new BitmapImage("data/images/Screens/start_menu.png")
-    //    gameWin = new BitmapImage("data/images/Screens/winScreen.png")
-
-
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -139,6 +134,7 @@ class Game extends RenderingScreen {
       }
 
     }
+
     /** If the player's life points get to zero, end the game */
     if (player.getLifePoints <= 0) {
       Game.gameOver = true

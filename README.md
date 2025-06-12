@@ -22,7 +22,7 @@ It can get tricky to move without getting hit once you're facing many opponents 
 ![In game_sem2_hard.png](Screenshots/In%20game_sem2_hard.png)
 
 Click on the video below to see a demo !
-[![Watch the video](Screenshots/Main%20menu.png)](Screenshots/HES%20Survivor%20Demo_15s.mp4)
+[![Watch the video](Screenshots/Main%20menu.png)](Screenshots/Hes%20Survivor%20Demo%2015S.mp4)
 
 If you don't succed at first, well just give it another shot !
 ![Game over.png](Screenshots/Game%20over.png)

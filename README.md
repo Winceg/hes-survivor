@@ -20,7 +20,9 @@ To move your character, just move your mouse inside the window
 
 It can get tricky to move without getting hit once you're facing many opponents !
 ![In game_sem2_hard.png](Screenshots/In%20game_sem2_hard.png)
-[![HES Survivor Demo_15s.mp4](Screenshots/Main%20menu.png)](Screenshots/HES%20Survivor%20Demo_15s.mp4)
+
+Click on the image to see a demo !
+[![Watch the video](Screenshots/Main%20menu.png)](Screenshots/HES%20Survivor%20Demo_15s.mp4)
 
 If you don't succed at first, well just give it another shot !
 ![Game over.png](Screenshots/Game%20over.png)

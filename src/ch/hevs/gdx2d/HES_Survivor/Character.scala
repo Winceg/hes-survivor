@@ -81,7 +81,7 @@ trait Character {
   /** HUD */
   def getLifePoints: Int = lifePoints
 
-  private def displayLifePoints: String = s"Life : $lifePoints"
+  //private def displayLifePoints: String = s"Life : $lifePoints"
 
   private def displayLifeBar(g: GdxGraphics): Unit = {
     val lifePercent: Int = ((lifePoints.toFloat / maxLifePoints.toFloat) * 100f).toInt
@@ -108,7 +108,7 @@ trait Character {
     displayLifeBar(g)
     g.setColor(Color.BLACK)
     //g.drawFilledRectangle(position.x, position.y, collisionBox._1 * 2, collisionBox._2 * 2, 0, Color.RED)
-    g.drawString(position.x - 25, position.y + sprite.spriteDimentionX * 2 / 3 + 20, displayLifePoints)
+    //g.drawString(position.x - 25, position.y + sprite.spriteDimentionX * 2 / 3 + 20, displayLifePoints)
     g.draw(sprite.spriteSheet.sprites(0)(sprite.syncSprite()), position.x - sprite.spriteDimentionX / 2, position.y - sprite.spriteDimentionY / 2)
   }
 }

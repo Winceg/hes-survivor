@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input
 object Screen {
   val height: Int = 1080
   val width: Int = 1920
+  var newGame: Boolean = _
 }
 
 class Screen extends PortableApplication(width, height) {
@@ -19,6 +20,7 @@ class Screen extends PortableApplication(width, height) {
     s.registerScreen(classOf[Game])
     s.registerScreen(classOf[Help])
     s.registerScreen(classOf[Options])
+    Screen.newGame = true
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {

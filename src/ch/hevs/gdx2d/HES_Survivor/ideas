@@ -5,6 +5,7 @@ Dialog ideas:
 
 ==> JO
 - fond [V]
+- ++ ajouter musique
 - musique et sons
 - FirerateFix
 - Explosions srpite
@@ -25,20 +26,19 @@ Dialog ideas:
 - barre de vie ennemis [v]
 - manu affichage des controles [v]
 - +++ 3 ème arme (espace) [v]
+- lifepoints reset au max après écran de pause [v]
 Reste:
-- +++ valider sélections dans les menus
-- +++ ajouter musique
 - +++ onDrag comme arme supplémentaire à la fin
 - ++ sons
 - ++ notifications de nouvelle arme
+- + valider sélections dans les menus
 - + HUD Design
 - + accueuil et fin avec outlook et Mudry
 - + écran de Game Over avec feuille d'échec etc"/// écran de win bachelor ISC + Mudry bravo
 - (acceuil avec Mudry dialogue) - écran menu éclaires
 
 ==> BUGS
-- lifepoints reset au max après écran de pause
-
+- crashe quand on frappe une touche et qu'une transition d'écran est en cours
 
 
 == SECONDAIRE ==

@@ -27,7 +27,7 @@ class Player(private val name: String = "Player 1",
       case 2 =>
         addWeapon(new Weapon(weaponName = "The Limit Blaster", bulletType = 3))
         println("New limit weapon")
-      case 3 =>
+      case 4 =>
         addWeapon(new Weapon(weaponName = "The Integral Desintegrator", bulletType = 0, damage = 15))
         println("New integral weapon")
       case _ =>

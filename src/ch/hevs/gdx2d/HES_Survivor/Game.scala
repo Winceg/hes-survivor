@@ -22,7 +22,7 @@ object Game {
   var dt: Float = 0
   var bullets: ArrayBuffer[Bullet] = new ArrayBuffer[Bullet]()
   var currentWave: Int = 1
-  var enemyQty = 3
+  var enemyQty = 1
   var gameOver: Boolean = false
 
   def resetGame(): Unit = {
@@ -42,7 +42,13 @@ class Game extends RenderingScreen {
   /** Base attributes */
   private var backGround: BitmapImage = _
   private var gameOverScreen: BitmapImage = _
-  private var gameWin: BitmapImage = _
+  //  private var gameWin: BitmapImage = _
+
+  /** Player init */
+  if (Screen.newGame) {
+    player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/player_walk.png", 0, 4))
+    Screen.newGame = false
+  }
 
   /** Game Over screen */
   private def gameOver(win: Boolean, g: GdxGraphics): Unit = {
@@ -60,10 +66,9 @@ class Game extends RenderingScreen {
   override def onInit(): Unit = {
     backGround = new BitmapImage("data/images/Screens/backGround.png")
     gameOverScreen = new BitmapImage("data/images/Screens/start_menu.png")
-    gameWin = new BitmapImage("data/images/Screens/winScreen.png")
+    //    gameWin = new BitmapImage("data/images/Screens/winScreen.png")
 
-    /** Player init */
-    player = new Player(name = "Raph", initSprite = new Sprite(256, 256, "data/images/spriteSheet/entity/player_walk.png", 0, 4))
+
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -107,7 +112,6 @@ class Game extends RenderingScreen {
       e.moveDelta(2, 2)
       e.onCollision()
       e.draw(g)
-
     }
 
     /** Removing all enemies marked as hit for deletion */
@@ -135,7 +139,8 @@ class Game extends RenderingScreen {
       }
 
     }
-    if (player.getLifePoints <= 0) { // ici afficher le game over screeen et sortir de la boucle
+    /** If the player's life points get to zero, end the game */
+    if (player.getLifePoints <= 0) {
       Game.gameOver = true
       gameOver(win = false, g)
     }
@@ -144,17 +149,16 @@ class Game extends RenderingScreen {
 
   override def onKeyDown(keycode: Int): Unit = {
     super.onKeyDown(keycode)
-
-    keycode match { // try catch pour eviter crash
+    keycode match {
       case Keys.SPACE =>
         player.shoot(2)
     }
   }
 
-//  override def onDrag(x: Int, y: Int): Unit = {
-//    super.onDrag(x, y)
-//    player.shoot()
-//  }
+  override def onDrag(x: Int, y: Int): Unit = {
+    super.onDrag(x, y)
+    if (Game.currentWave > 5) player.shoot()
+  }
 
   override def onClick(x: Int, y: Int, button: Int): Unit = {
     if (button == Input.Buttons.LEFT) {
